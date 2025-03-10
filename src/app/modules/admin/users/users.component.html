@@ -1,0 +1,29 @@
+<app-admin-navbar/>
+<body class="container-all">
+<div>
+  <app-admin-sidebar/>
+</div>
+<div>
+  @switch (this.userService.getUser()){
+    @case ('dashboard'){
+        <app-dashboard class="container"></app-dashboard>
+    }
+    @case ('register'){
+        <app-register class="container"></app-register>
+    }
+    @case ('registerActivity'){
+        <app-activity-register class="container"></app-activity-register>
+    }
+      @case ('usuarios'){
+          <app-admin-list class="container"></app-admin-list>
+      }
+    @case ('eventos'){
+        <app-activity-list class="container"></app-activity-list>
+  }
+    @case ('atletas'){
+      <app-athlete-list class="container"></app-athlete-list>
+    }
+  }
+</div>
+</body>
+

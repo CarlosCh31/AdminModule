@@ -1,0 +1,33 @@
+mat-sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 250px;
+  background: linear-gradient(to bottom, #fc4048, #9F2740, #9e2740); /* Degradado */
+}
+
+mat-icon {
+  padding: 15px;
+  color: white;
+
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: lighter;
+  font-family: 'Ubuntu', sans-serif;
+}
+a:hover {
+  text-decoration: none;
+  background-color: #fc1721;
+}

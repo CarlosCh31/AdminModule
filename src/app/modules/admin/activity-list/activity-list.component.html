@@ -1,0 +1,70 @@
+<div class="container-all">
+<table mat-table [dataSource]="activities" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Descripción </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.description}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="time">
+    <th mat-header-cell *matHeaderCellDef> Hora </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.time}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <th mat-header-cell *matHeaderCellDef> Duración </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.duration}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="location">
+    <th mat-header-cell *matHeaderCellDef> Ubicación </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.location}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="modality">
+    <th mat-header-cell *matHeaderCellDef> Modalidad </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.modality}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="max_participants">
+    <th mat-header-cell *matHeaderCellDef> Máx. Participantes </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.max_participants}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef> Estado </th>
+    <td mat-cell *matCellDef="let activity"> {{activity.state}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+    <td mat-cell *matCellDef="let activity">
+      <button mat-icon-button color="primary" (click)="updateActivity(activity)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteActivity(activity.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+</div>

@@ -1,0 +1,49 @@
+
+<div>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div class="register-container">
+    <div class="form-group">
+      <mat-icon class="icono">person_add</mat-icon>
+      <h2>Ingreso de nuevos coordinadores</h2>
+
+    </div>
+      <p></p>
+
+
+    <!-- Correo -->
+    <div class="form-group">
+      <label for="email">Correo:</label>
+      <input id="email" type="email" formControlName="email" class="input-field" (blur)="markTouched('email')">
+    </div>
+
+    <div class="form-group">
+      <!-- Botón de Registro -->
+      <button type="submit" [disabled]="registerForm.invalid || isLoading">Registrarse</button>
+    </div>
+    <!-- Mensaje de estado -->
+    <p *ngIf="formStatus" class="form-status">{{ formStatus }}</p>
+
+</div>
+    <div  class="error-container">
+      <div class="form-group">
+        <!-- ✅ Mensajes de error claros y organizados -->
+
+        <small *ngIf="isInvalid('email')"> Introduce un correo válido.</small>
+
+      </div>
+      <div class="form-group">
+        <small *ngIf="registerForm.hasError('invalidDomain', 'email')">
+
+
+          ⚠️ El correo no pertenece a &#64;olimpiadasespeciales.cr. Se recomienda usar un correo institucional.
+        </small>
+
+      </div>
+
+
+    </div>
+  </form>
+
+</div>

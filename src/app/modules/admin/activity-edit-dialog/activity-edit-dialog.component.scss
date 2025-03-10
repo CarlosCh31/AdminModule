@@ -1,0 +1,49 @@
+::ng-deep .mat-mdc-dialog-container {
+  padding: 2px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #3f51b5; // Azul de Material Design
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+button {
+  min-width: 100px;
+}
+
+button[color="primary"] {
+  background-color: #3f51b5; // Azul Material
+  color: white;
+  &:hover {
+    background-color: #303f9f;
+  }
+}
+
+button[color="warn"] {
+  background-color: #f44336; // Rojo Material
+  color: white;
+  &:hover {
+    background-color: #d32f2f;
+  }
+}

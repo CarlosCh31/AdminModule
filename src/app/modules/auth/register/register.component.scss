@@ -1,0 +1,90 @@
+.register-container {
+  margin-top: 100px;
+  margin-left: 500px;
+  padding: 6rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.44);
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.form-group {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.input-field {
+  width: 150%;
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+label{
+  font-size: 20px;
+  padding: 7px;
+  margin: 10px;
+}
+
+small {
+  color: red;
+  font-size: 20px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #62645b, #53554e);
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.form-status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #007bff;
+  text-align: center;
+}
+.spacer{
+  margin: 3rem;
+}
+.error-container {
+  margin-top: 25px;
+  margin-left: 500px;
+  padding: 2rem;
+  font-family: 'Ubuntu', sans-serif;
+
+}
+h2{
+  text-align: center;
+  padding: 1rem;
+}
+p {
+  text-align: center;
+  color: #3d4149;
+  font-weight: bold;
+  font-family: 'Ubuntu', sans-serif;
+}

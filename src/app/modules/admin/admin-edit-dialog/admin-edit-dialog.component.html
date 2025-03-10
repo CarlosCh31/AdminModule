@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Editar Administrador</h2>
+<div mat-dialog-content>
+  <form [formGroup]="editForm">
+    <!-- Campo Email -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="emailControl?.invalid">Email inválido</mat-error>
+    </mat-form-field>
+
+    <!-- Campo Contraseña -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error *ngIf="passwordControl?.invalid">
+        Mínimo 6 caracteres
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<!-- Botones -->
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="editForm.invalid">
+    Guardar
+  </button>
+</div>

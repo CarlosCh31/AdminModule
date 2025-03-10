@@ -1,0 +1,16 @@
+<mat-sidenav-container class="h-screen">
+  <mat-sidenav #sidenav mode="side" opened class="bg-[#3f0e37] w-64 text-white">
+    <div class="p-4">
+
+      <ul class="space-y-2 mt-4">
+        <li *ngFor="let item of menuItems">
+          <a (click)="changeView(item.route)" class="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-[#9f2740]">
+            <mat-icon class="text-[#f5f5f3]">{{ item.icon }}</mat-icon>
+            <span class="text-[#f5f5f3]">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </mat-sidenav>
+
+</mat-sidenav-container>
