@@ -17,7 +17,7 @@ export class ActivityService {
 
   // Registrar una nueva actividad
   register(data: any) {
-    return this.httpClient.put(`${this.baseUrl}/register`, data);
+    return this.httpClient.post(`${this.baseUrl}/register`, data);
   }
 
   // Editar una actividad existente
