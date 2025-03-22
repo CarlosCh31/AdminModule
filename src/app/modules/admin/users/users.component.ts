@@ -5,9 +5,9 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import {UserService} from '../../../core/user.service';
 import {RegisterComponent} from '../../auth/register/register.component';
 
-import {ActivityRegisterComponent} from '../activity-register/activity-register.component';
+import {ActivityRegisterComponent} from '../../../shared/activity/activity-register/activity-register.component';
 import {AdminListComponent} from "../admin-list/admin-list.component";
-import {ActivityListComponent} from '../activity-list/activity-list.component';
+import {ActivityListComponent} from '../../../shared/activity/activity-list/activity-list.component';
 import {AthleteListComponent} from '../athlete-list/athlete-list.component';
 
 @Component({
