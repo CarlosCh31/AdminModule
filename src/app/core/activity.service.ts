@@ -10,6 +10,7 @@ export class ActivityService {
   httpClient = inject(HttpClient);
   baseUrl = 'http://localhost:8080/api/activity'; // Ajusta la URL según tu backend
   workshopUrl: string = 'http://localhost:8080/api/workshops';
+  talkForumUrl: string= 'http://localhost:8080/api/talk-forums';
 
   // Obtener todas las actividades
   getAll(): Observable<any[]> {
@@ -23,6 +24,9 @@ export class ActivityService {
 
   registerWorkshop(data: any) {
     return this.httpClient.post(`${this.workshopUrl}/register`, data);
+  }
+  registerTalkForum(data:any){
+    return this.httpClient.post(`${this.talkForumUrl}/register`, data)
   }
 
   // Editar una actividad existente

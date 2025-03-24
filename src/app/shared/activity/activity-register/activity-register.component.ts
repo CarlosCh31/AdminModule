@@ -208,7 +208,6 @@ export class ActivityRegisterComponent implements OnInit {
         needs_material: this.activityForm.value.needs_material,
         specifications: this.activityForm.value.specifications,
       });
-      console.log('memuero' + activityData);
       this.activityService.registerWorkshop(activityData).subscribe(
         response => console.log('Taller creado:', response),
         error => console.error('Error al registrar el taller:', error)
@@ -220,6 +219,10 @@ export class ActivityRegisterComponent implements OnInit {
         theme: this.activityForm.value.theme,
         target_audience: this.activityForm.value.target_audience
       });
+      this.activityService.registerTalkForum(activityData).subscribe(
+        response => console.log('Charla/Foro creado:', response),
+        error => console.error('Error al registrar la Charla/Foro:', error)
+      );
     }
 
     console.log('aaaaaaaaaaaaaaaaa' + JSON.stringify(activityData));
