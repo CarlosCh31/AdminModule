@@ -186,7 +186,8 @@ export class ActivityRegisterComponent implements OnInit {
       maxParticipants: this.activityForm.value.maxParticipants,
       minimumAge: this.activityForm.value.minimumAge,
       maximumAge: this.activityForm.value.maximumAge,
-      administrator: { id: 0, email: this.activityForm.value.email, password: '', type: 0 }
+      administrator: { id: 0, email: this.activityForm.value.email, password: '' },
+      state:'activo'
     };
 
     if (this.activityForm.value.type === 'Deporte') {
@@ -197,15 +198,21 @@ export class ActivityRegisterComponent implements OnInit {
         specification: this.activityForm.value.specification,
         level: this.activityForm.value.level
       });
+
     }
 
     if (this.activityForm.value.type === 'Taller') {
       Object.assign(activityData, {
-        objective: this.activityForm.value.objective,
+        objectives: this.activityForm.value.objective,
         target_audience: this.activityForm.value.target_audience,
         needs_material: this.activityForm.value.needs_material,
-        specifications: this.activityForm.value.specifications
+        specifications: this.activityForm.value.specifications,
       });
+      console.log('memuero' + activityData);
+      this.activityService.registerWorkshop(activityData).subscribe(
+        response => console.log('Taller creado:', response),
+        error => console.error('Error al registrar el taller:', error)
+      );
     }
 
     if (['Charla', 'Foro'].includes(this.activityForm.value.type)) {
@@ -215,10 +222,10 @@ export class ActivityRegisterComponent implements OnInit {
       });
     }
 
-    console.log(JSON.stringify(activityData));
-    this.activityService.register(activityData).subscribe(
+    console.log('aaaaaaaaaaaaaaaaa' + JSON.stringify(activityData));
+   /* this.activityService.register(activityData).subscribe(
       response => console.log('Actividad creada:', response),
       error => console.error('Error al registrar la actividad:', error)
-    );
+    );*/
   }
 }

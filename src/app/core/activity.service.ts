@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 export class ActivityService {
   httpClient = inject(HttpClient);
   baseUrl = 'http://localhost:8080/api/activity'; // Ajusta la URL según tu backend
+  workshopUrl: string = 'http://localhost:8080/api/workshops';
 
   // Obtener todas las actividades
   getAll(): Observable<any[]> {
@@ -18,6 +19,10 @@ export class ActivityService {
   // Registrar una nueva actividad
   register(data: any) {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
+  }
+
+  registerWorkshop(data: any) {
+    return this.httpClient.post(`${this.workshopUrl}/register`, data);
   }
 
   // Editar una actividad existente
