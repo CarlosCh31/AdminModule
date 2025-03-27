@@ -145,8 +145,8 @@
 
         <div class="form-group" *ngIf="activityForm.get('needs_special_equipment')?.value === true">
           <label>Especificaciones del equipo especial:</label>
-          <textarea formControlName="specification" required></textarea>
-          <label class="error-message" *ngIf="activityForm.get('specification')?.invalid && (activityForm.get('specification')?.touched || submittedAdditional)">
+          <textarea formControlName="specifications" required></textarea>
+          <label class="error-message" *ngIf="activityForm.get('specifications')?.invalid && (activityForm.get('specifications')?.touched || submittedAdditional)">
             Campo vacío, por favor indique las especificaciones necesarias del equipo especial.
           </label>
         </div>

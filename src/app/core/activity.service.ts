@@ -11,6 +11,7 @@ export class ActivityService {
   baseUrl = 'http://localhost:8080/api/activity'; // Ajusta la URL según tu backend
   workshopUrl: string = 'http://localhost:8080/api/workshops';
   talkForumUrl: string= 'http://localhost:8080/api/talk-forums';
+  sportUrl: string= 'http://localhost:8080/api/sports';
 
   // Obtener todas las actividades
   getAll(): Observable<any[]> {
@@ -20,6 +21,10 @@ export class ActivityService {
   // Registrar una nueva actividad
   register(data: any) {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
+  }
+
+  registerSport(data: any): Observable<{ message: string }> {
+    return this.httpClient.post<{ message: string }>(`${this.sportUrl}/register`, data);
   }
 
   registerWorkshop(data: any) {

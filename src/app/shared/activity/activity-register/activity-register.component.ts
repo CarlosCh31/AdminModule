@@ -36,7 +36,7 @@ export interface Sport {
   type: string;
   difficulty: string;
   needs_special_equipment: boolean;
-  specification: string;
+  specifications: string;
   level: string;
 }
 
@@ -99,7 +99,7 @@ export class ActivityRegisterComponent implements OnInit {
       sport: [''],
       difficulty: [''],
       needs_special_equipment: [false],
-      specification: [''],
+      //specification: [''],
       level: [''],
       objective: [''],
       target_audience: [''],
@@ -115,7 +115,7 @@ export class ActivityRegisterComponent implements OnInit {
 
   private updateValidators(activityType: string) {
     const fieldGroups: Record<string, string[]> = {
-      Deporte: ['sport', 'difficulty', 'needs_special_equipment', 'specification', 'level'],
+      Deporte: ['sport', 'difficulty', 'needs_special_equipment', 'specifications', 'level'],
       Taller: ['objective', 'target_audience', 'needs_material', 'specifications'],
       Charla: ['theme', 'target_audience'],
       Foro: ['theme', 'target_audience']
@@ -195,9 +195,13 @@ export class ActivityRegisterComponent implements OnInit {
         sport: this.activityForm.value.sport,
         difficulty: this.activityForm.value.difficulty,
         needs_special_equipment: this.activityForm.value.needs_special_equipment,
-        specification: this.activityForm.value.specification,
+        specifications: this.activityForm.value.specifications,
         level: this.activityForm.value.level
       });
+      this.activityService.registerSport(activityData).subscribe(
+        response => console.log('Deporte creado:', response.message),
+        error => console.error('Error al registrar el deporte:', error)
+      );
 
     }
 
