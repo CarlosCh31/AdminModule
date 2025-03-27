@@ -28,10 +28,10 @@ export class ActivityService {
   }
 
   registerWorkshop(data: any) {
-    return this.httpClient.post(`${this.workshopUrl}/register`, data);
+    return this.httpClient.post<{ message: string }>(`${this.workshopUrl}/register`, data);
   }
   registerTalkForum(data:any){
-    return this.httpClient.post(`${this.talkForumUrl}/register`, data)
+    return this.httpClient.post<{ message: string }>(`${this.talkForumUrl}/register`, data)
   }
 
   // Editar una actividad existente

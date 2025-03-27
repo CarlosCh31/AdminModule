@@ -213,7 +213,7 @@ export class ActivityRegisterComponent implements OnInit {
         specifications: this.activityForm.value.specifications,
       });
       this.activityService.registerWorkshop(activityData).subscribe(
-        response => console.log('Taller creado:', response),
+        response => console.log('Taller creado:', response.message),
         error => console.error('Error al registrar el taller:', error)
       );
     }
@@ -224,7 +224,7 @@ export class ActivityRegisterComponent implements OnInit {
         target_audience: this.activityForm.value.target_audience
       });
       this.activityService.registerTalkForum(activityData).subscribe(
-        response => console.log('Charla/Foro creado:', response),
+        response => console.log('Charla/Foro creado:', response.message),
         error => console.error('Error al registrar la Charla/Foro:', error)
       );
     }
