@@ -3,6 +3,13 @@
     <mat-icon class="icono">event</mat-icon>
     <h2>Crear Actividad</h2>
   </div>
+  <div *ngIf="successMessage" class="alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert-error">
+    {{ errorMessage }}
+  </div>
 
   <!-- Formulario Principal -->
   <form *ngIf="showMainForm" [formGroup]="activityForm" (ngSubmit)="goToNextStep()" class="form-grid">

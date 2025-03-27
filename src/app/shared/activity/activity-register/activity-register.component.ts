@@ -64,7 +64,7 @@ export interface TalkForum {
     MatIcon
   ],
   templateUrl: './activity-register.component.html',
-  styleUrls: ['./activity-register.component.scss']
+  styleUrls: ['./activity-register.component.scss'],
 })
 export class ActivityRegisterComponent implements OnInit {
   activityForm!: FormGroup;
@@ -75,6 +75,8 @@ export class ActivityRegisterComponent implements OnInit {
   activityTypes = ['Deporte', 'Taller', 'Charla', 'Foro'];
   sports = ['Fútbol', 'Baloncesto', 'Natación', 'Atletismo'];
   private activityService = inject(ActivityService);
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -199,8 +201,25 @@ export class ActivityRegisterComponent implements OnInit {
         level: this.activityForm.value.level
       });
       this.activityService.registerSport(activityData).subscribe(
-        response => console.log('Deporte creado:', response.message),
-        error => console.error('Error al registrar el deporte:', error)
+        response => {
+          console.log('Deporte creado:', response.message);
+          this.successMessage = response.message || '¡Deporte guardado correctamente!';
+          this.errorMessage = null;
+          this.activityForm.reset(); // limpiar formulario
+          this.goBack();
+          setTimeout(() => {
+            this.successMessage = null;
+          }, 3000);
+        },
+        error => {
+          console.error('Error al registrar el deporte:', error);
+          this.errorMessage = error?.error?.message || 'Ocurrió un error al registrar el deporte.';
+          this.successMessage = null;
+
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 5000);
+        }
       );
 
     }
@@ -212,9 +231,25 @@ export class ActivityRegisterComponent implements OnInit {
         needs_material: this.activityForm.value.needs_material,
         specifications: this.activityForm.value.specifications,
       });
-      this.activityService.registerWorkshop(activityData).subscribe(
-        response => console.log('Taller creado:', response.message),
-        error => console.error('Error al registrar el taller:', error)
+      this.activityService.registerWorkshop(activityData).subscribe( response => {
+          console.log('Taller creado:', response.message);
+          this.successMessage = response.message || '¡Taller guardado correctamente!';
+          this.errorMessage = null;
+          this.activityForm.reset(); // limpiar formulario
+          this.goBack();
+          setTimeout(() => {
+            this.successMessage = null;
+          }, 3000);
+        },
+        error => {
+          console.error('Error al registrar el taller:', error);
+          this.errorMessage = error?.error?.message || 'Ocurrió un error al registrar el taller.';
+          this.successMessage = null;
+
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 5000);
+        }
       );
     }
 
@@ -224,8 +259,25 @@ export class ActivityRegisterComponent implements OnInit {
         target_audience: this.activityForm.value.target_audience
       });
       this.activityService.registerTalkForum(activityData).subscribe(
-        response => console.log('Charla/Foro creado:', response.message),
-        error => console.error('Error al registrar la Charla/Foro:', error)
+        response => {
+          console.log('Charla/Foro creado:', response.message);
+          this.successMessage = response.message || '¡Charla/Foro guardado correctamente!';
+          this.errorMessage = null;
+          this.activityForm.reset(); // limpiar formulario
+          this.goBack();
+          setTimeout(() => {
+            this.successMessage = null;
+          }, 3000);
+        },
+        error => {
+          console.error('Error al registrar la charla/foro:', error);
+          this.errorMessage = error?.error?.message || 'Ocurrió un error al registrar la charla/foro.';
+          this.successMessage = null;
+
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 5000);
+        }
       );
     }
 
