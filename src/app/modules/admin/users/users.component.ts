@@ -9,6 +9,7 @@ import {ActivityRegisterComponent} from '../../../shared/activity/activity-regis
 import {AdminListComponent} from "../admin-list/admin-list.component";
 import {ActivityListComponent} from '../../../shared/activity/activity-list/activity-list.component';
 import {AthleteListComponent} from '../athlete-list/athlete-list.component';
+import { ResultsRegisterComponent } from '../../../shared/results-register/results-register.component';
 
 @Component({
   selector: 'app-users',
@@ -20,7 +21,8 @@ import {AthleteListComponent} from '../athlete-list/athlete-list.component';
     ActivityRegisterComponent,
     AdminListComponent,
     ActivityListComponent,
-    AthleteListComponent
+    AthleteListComponent,
+    ResultsRegisterComponent
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'

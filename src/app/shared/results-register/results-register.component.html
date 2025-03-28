@@ -1,0 +1,38 @@
+<div class="result-wrapper">
+  <h2 class="form-title">
+    <mat-icon class="icono">emoji_events</mat-icon>
+    Registrar Resultado de Actividad
+  </h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="result-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Seleccionar Actividad*</mat-label>
+      <mat-select formControlName="activityId" (selectionChange)="onActivitySelect($event.value)">
+        <mat-option *ngFor="let activity of activities" [value]="activity.id">
+          {{ activity.name }} ({{ activity.date }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Seleccionar Atleta*</mat-label>
+      <mat-select formControlName="athleteId">
+        <mat-option *ngFor="let athlete of athletes" [value]="athlete.id">
+          {{ athlete.person_id }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Posición del Atleta*</mat-label>
+      <input matInput type="text" formControlName="position" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tiempos del Atleta*</mat-label>
+      <input matInput type="text" formControlName="time" />
+    </mat-form-field>
+
+    <button mat-flat-button type="submit">Guardar Resultado</button>
+  </form>
+</div>
