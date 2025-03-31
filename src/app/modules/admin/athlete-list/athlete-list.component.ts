@@ -35,7 +35,7 @@ export class AthleteListComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
-  displayedColumns: string[] = ['id', 'person_id', 'laterality', 'disability_type', 'weight', 'height', 'actions'];
+  displayedColumns: string[] = ['id', 'laterality', 'disability_type', 'weight', 'height', 'actions'];
   athletes: any[] = [];
 
   ngOnInit() {
@@ -73,6 +73,7 @@ export class AthleteListComponent implements OnInit {
     this.athleteService.delete(id).subscribe({
       next: () => {
         this.athletes = this.athletes.filter((athlete) => athlete.id !== id);
+        this.loadAthletes();
       },
       error: (err) => {
         console.error('Error eliminando atleta:', err);

@@ -9,6 +9,7 @@ import { MatError } from '@angular/material/form-field';
 import { NgIf } from '@angular/common';
 import { ActivityService } from '../../../core/activity.service';
 import { HttpClient } from '@angular/common/http';
+import {MatOption, MatSelect} from '@angular/material/select';
 
 @Component({
   selector: 'app-activity-edit-dialog',
@@ -20,7 +21,9 @@ import { HttpClient } from '@angular/common/http';
     MatButtonModule,
     MatError,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './activity-edit-dialog.component.html',
   styleUrls: ['./activity-edit-dialog.component.scss'],
@@ -36,58 +39,83 @@ export class ActivityEditDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.editForm = this.fb.group({
+      id: [data.id],
       name: [data.name, [Validators.required]],
+      type: [data.type, [Validators.required]],
       description: [data.description, [Validators.required]],
       date: [data.date, [Validators.required]],
       time: [data.time, [Validators.required]],
       duration: [data.duration, [Validators.required, Validators.min(1)]],
       modality: [data.modality, [Validators.required]],
       location: [data.location, [Validators.required]],
-      max_participants: [data.max_participants, [Validators.required, Validators.min(1)]],
+      maxParticipants: [data.maxParticipants, [Validators.required, Validators.min(1)]],
+      minimumAge: [data.minimumAge, [Validators.required]],
+      maximumAge: [data.maximumAge, [Validators.required]],
+      administratorEmail: [data.administratorEmail, [Validators.required]],
       state: [data.state, [Validators.required]]
     });
   }
 
+  get idControl() {
+    return this.editForm.get('id');
+  }
   // Hacer los getters públicos para que sean accesibles en la plantilla
-  public get nameControl() {
+  get nameControl() {
     return this.editForm.get('name');
   }
 
-  public get descriptionControl() {
+  get typeControl() {
+    return this.editForm.get('type');
+  }
+
+  get descriptionControl() {
     return this.editForm.get('description');
   }
 
-  public get dateControl() {
+  get dateControl() {
     return this.editForm.get('date');
   }
 
-  public get timeControl() {
+  get timeControl() {
     return this.editForm.get('time');
   }
 
-  public get durationControl() {
+  get durationControl() {
     return this.editForm.get('duration');
   }
 
-  public get modalityControl() {
+  get modalityControl() {
     return this.editForm.get('modality');
   }
 
-  public get locationControl() {
+  get locationControl() {
     return this.editForm.get('location');
   }
 
-  public get maxParticipantsControl() {
-    return this.editForm.get('max_participants');
+  get maxParticipantsControl() {
+    return this.editForm.get('maxParticipants');
   }
 
-  public get stateControl() {
+  get minimumAgeControl(){
+    return this.editForm.get('minimumAge');
+  }
+
+  get maximumAgeControl(){
+    return this.editForm.get('maximumAge');
+  }
+
+  get administratorEmailControl(){
+    return this.editForm.get('administratorEmail');
+  }
+
+  get stateControl() {
     return this.editForm.get('state');
   }
 
   public saveChanges() {
     if (this.editForm.valid) {
       const activityData = this.editForm.value;
+      console.log(activityData);
 
       this.activityService.update(activityData).subscribe(
         (response) => {
@@ -96,7 +124,6 @@ export class ActivityEditDialogComponent {
         },
         (error) => {
           console.error('Error al actualizar actividad:', error);
-          window.location.reload();
           this.dialogRef.close(true);
         }
       );

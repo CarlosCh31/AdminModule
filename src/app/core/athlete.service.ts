@@ -11,7 +11,7 @@ export class AthleteService {
   baseUrl = 'http://localhost:8080/api/athletes'; // Ajusta la URL según tu backend
 
   getAll(): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseUrl}`);
+    return this.httpClient.get<any[]>(`${this.baseUrl}/getAll`);
   }
 
   register(data: any) {
@@ -19,7 +19,7 @@ export class AthleteService {
   }
 
   update(data: any) {
-    return this.httpClient.put(`${this.baseUrl}/update/${data.id}`, data)
+    return this.httpClient.put(`${this.baseUrl}/update`, data)
         .pipe(tap((result) => {
           console.log('Atleta actualizado:', result);
         }));

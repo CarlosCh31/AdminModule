@@ -93,8 +93,11 @@ export class AdminListComponent implements OnInit {
       this.router.navigate([this.router.url]).then(r => this.variable.setUser('usuarios')); // Recarga la ruta actual
     });
   }
-  deleteAdmin(id: number) {
-    console.log(`Eliminar admin con ID: ${id}`);
-    this.admins = this.admins.filter((admin) => admin.id !== id);
+  deleteAdmin(admin: any) {
+    console.log(`Eliminar admin con correo: ${admin.email}`);
+
+    this.authService.deleteAdmin(admin).subscribe(() => {
+      this.admins = this.admins.filter((a) => a.email !== admin.email);
+    });
   }
 }

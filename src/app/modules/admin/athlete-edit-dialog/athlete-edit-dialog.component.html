@@ -1,1 +1,56 @@
-<p>athlete-edit-dialog works!</p>
+<h2 mat-dialog-title>Editar Atleta</h2>
+<div mat-dialog-content>
+  <form [formGroup]="editForm">
+    <!-- Campo ID -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="id" />
+      <mat-error *ngIf="idControl?.invalid">ID inválido</mat-error>
+    </mat-form-field>
+
+    <!-- Campo Lateralidad -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Lateralidad</mat-label>
+      <mat-select formControlName="laterality">
+        <mat-option value="Izquierda">Izquierda</mat-option>
+        <mat-option value="Derecha">Derecha</mat-option>
+      </mat-select>
+      <mat-error *ngIf="lateralityControl?.invalid">Seleccione una opción</mat-error>
+    </mat-form-field>
+
+    <!-- Campo Tipo de Discapacidad -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo de Discapacidad</mat-label>
+      <mat-select formControlName="disability_type">
+        <mat-option value="Visual">Visual</mat-option>
+        <mat-option value="Auditiva">Auditiva</mat-option>
+        <mat-option value="Cognitiva">Cognitiva</mat-option>
+        <mat-option value="Fisica">Fisica</mat-option>
+        <mat-option value="Otro">Otro</mat-option>
+      </mat-select>
+      <mat-error *ngIf="disabilityControl?.invalid">Seleccione un tipo válido</mat-error>
+    </mat-form-field>
+
+    <!-- Campo Peso -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Peso (kg)</mat-label>
+      <input matInput type="number" formControlName="weight" />
+      <mat-error *ngIf="weightControl?.invalid">Peso inválido</mat-error>
+    </mat-form-field>
+
+    <!-- Campo Altura -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Altura (cm)</mat-label>
+      <input matInput type="number" formControlName="height" />
+      <mat-error *ngIf="heightControl?.invalid">Altura inválida</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<!-- Botones -->
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="editForm.invalid">
+    Guardar
+  </button>
+</div>

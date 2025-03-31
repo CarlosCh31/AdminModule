@@ -3,6 +3,23 @@ import { inject, Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
+export interface ActivityDTO {
+  id: number;
+  name: string;
+  type: string;
+  description: string;
+  date: string; // ISO format, e.g., "2025-03-31"
+  time: string; // ISO time, e.g., "14:30:00"
+  duration: string;
+  modality: string;
+  location: string;
+  maxParticipants: number;
+  minimumAge: number;
+  maximumAge: number;
+  state: string;
+  administratorEmail: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +31,8 @@ export class ActivityService {
   sportUrl: string= 'http://localhost:8080/api/sports';
 
   // Obtener todas las actividades
-  getAll(): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseUrl}/getAll`);
+  getAll(): Observable<ActivityDTO[]> {
+    return this.httpClient.get<ActivityDTO[]>(`${this.baseUrl}/getAll`);
   }
 
   // Registrar una nueva actividad
@@ -36,7 +53,7 @@ export class ActivityService {
 
   // Editar una actividad existente
   update(data: any) {
-    return this.httpClient.put(`${this.baseUrl}/update/${data.id}`, data)
+    return this.httpClient.put(`${this.baseUrl}/update`, data)
       .pipe(tap((result) => {
         console.log('Actividad actualizada:', result);
       }));

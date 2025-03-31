@@ -36,7 +36,7 @@ export class ActivityListComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
-  displayedColumns: string[] = ['id', 'name', 'description', 'date', 'time', 'duration', 'location', 'modality', 'max_participants', 'state', 'actions'];
+  displayedColumns: string[] = ['id', 'type', 'name', 'description', 'date', 'time', 'duration', 'location', 'modality', 'maxParticipants', 'minimumAge', 'maximumAge', 'administratorEmail', 'state', 'actions'];
   activities: any[] = [];
 
   ngOnInit() {
@@ -48,6 +48,7 @@ export class ActivityListComponent implements OnInit {
     activitiesObservable.subscribe({
       next: (data) => {
         this.activities = data;
+        console.log('Contenido del observable:', data);
       },
       error: (err) => {
         console.error('Error cargando actividades:', err);
@@ -63,6 +64,7 @@ export class ActivityListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.loadActivities();
         const index = this.activities.findIndex((a) => a.id === activity.id);
         if (index !== -1) {
           this.activities[index] = { ...this.activities[index], ...result };
@@ -72,7 +74,14 @@ export class ActivityListComponent implements OnInit {
   }
 
   deleteActivity(id: number) {
-    console.log(`Eliminar actividad con ID: ${id}`);
-    this.activities = this.activities.filter((activity) => activity.id !== id);
+    this.activityService.delete(id).subscribe({
+      next: () => {
+        console.log('Eliminado');
+        this.loadActivities();
+      },
+      error: err => {
+        console.error('Error al eliminar:', err);
+      }
+    });
   }
 }

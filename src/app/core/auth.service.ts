@@ -8,7 +8,9 @@ import {routes} from '../app.routes';
 })
 export class AuthService {
   httpClient = inject(HttpClient);
+  private _isLoggedIn = false;
   baseUrl = 'http://localhost:8080/api/admin';
+  private userRole: string = '';
 
   register(data: any) {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
@@ -16,11 +18,17 @@ export class AuthService {
   getAll():any {
     return this.httpClient.get(`${this.baseUrl}/getAll`);
   }
-  login(data: any) {
-    return this.httpClient.post(`${this.baseUrl}/login`, data)
-      .pipe(tap((result) => {
-        localStorage.setItem('authUser', JSON.stringify(result));
-      }));
+  users():any {
+    return this.httpClient.get(`${this.baseUrl}/users`);
+  }
+  login(credentials: { email: string; password: string }) {
+    return this.httpClient.post<{ token: string; role: string }>(`${this.baseUrl}/login`, credentials).pipe(
+      tap((res) => {
+        localStorage.setItem('authUser', res.token);
+        this.userRole = res.role;
+        this._isLoggedIn = true;
+      })
+    );
   }
   edit(data: any) {
     return this.httpClient.put(`${this.baseUrl}/edit`, data)
@@ -30,9 +38,20 @@ export class AuthService {
   }
   logout() {
     localStorage.removeItem('authUser');
+    this._isLoggedIn = false;
   }
 
   isLoggedIn() {
-    return localStorage.getItem('authUser') !== null;
+    return this._isLoggedIn;
+  }
+  getUserRole(): string {
+    return this.userRole;
+  }
+
+  deleteAdmin(data: any){
+    return this.httpClient.put(`${this.baseUrl}/delete`, data)
+      .pipe(tap((result) => {
+        localStorage.setItem('authUser', JSON.stringify(result));
+      }));
   }
 }
