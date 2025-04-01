@@ -47,11 +47,11 @@ export class ResultsRegisterComponent implements OnInit {
     });
 
     this.activityService.getAll().subscribe(data => this.activities = data);
+    this.athleteService.getAll().subscribe(data => this.athletes = data);
   }
 
   onActivitySelect(activityId: number) {
-    this.http.get<any[]>(`http://localhost:8080/api/activities/${activityId}/athletes`)
-      .subscribe(data => this.athletes = data);
+
   }
 
   submit() {

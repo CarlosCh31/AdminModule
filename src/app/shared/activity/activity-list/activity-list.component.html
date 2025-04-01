@@ -1,5 +1,10 @@
 <div class="container-all">
-<table mat-table [dataSource]="activities" class="mat-elevation-z8">
+  <h2 class="table-title">
+    <mat-icon style="vertical-align: middle; margin-right: 8px;">event</mat-icon>
+    Lista de actividades
+  </h2>
+
+  <table mat-table [dataSource]="activities" class="mat-elevation-z8">
 
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> ID </th>

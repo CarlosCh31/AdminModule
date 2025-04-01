@@ -4,35 +4,54 @@
     Registrar Resultado de Actividad
   </h2>
 
-  <form [formGroup]="form" (ngSubmit)="submit()" class="result-form">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="result-form" novalidate>
+
+    <!-- Actividad -->
     <mat-form-field appearance="outline">
-      <mat-label>Seleccionar Actividad*</mat-label>
-      <mat-select formControlName="activityId" (selectionChange)="onActivitySelect($event.value)">
+      <mat-label>Actividad</mat-label>
+      <mat-select formControlName="activityId">
+        <mat-option disabled selected value="">Seleccione una actividad</mat-option>
         <mat-option *ngFor="let activity of activities" [value]="activity.id">
           {{ activity.name }} ({{ activity.date }})
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="form.get('activityId')?.hasError('required')">
+        Por favor seleccione una actividad.
+      </mat-error>
     </mat-form-field>
 
+    <!-- Atleta -->
     <mat-form-field appearance="outline">
-      <mat-label>Seleccionar Atleta*</mat-label>
+      <mat-label>Atleta</mat-label>
       <mat-select formControlName="athleteId">
+        <mat-option disabled selected value="">Seleccione un atleta</mat-option>
         <mat-option *ngFor="let athlete of athletes" [value]="athlete.id">
-          {{ athlete.person_id }}
+          {{ athlete.name }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="form.get('athleteId')?.hasError('required')">
+        Por favor seleccione un atleta.
+      </mat-error>
     </mat-form-field>
 
+    <!-- Posición -->
     <mat-form-field appearance="outline">
-      <mat-label>Posición del Atleta*</mat-label>
+      <mat-label>Posición del Atleta</mat-label>
       <input matInput type="text" formControlName="position" />
+      <mat-error *ngIf="form.get('position')?.hasError('required')">
+        Por favor indique la posición.
+      </mat-error>
     </mat-form-field>
 
+    <!-- Tiempo -->
     <mat-form-field appearance="outline">
-      <mat-label>Tiempos del Atleta*</mat-label>
+      <mat-label>Tiempo del Atleta</mat-label>
       <input matInput type="text" formControlName="time" />
+      <mat-error *ngIf="form.get('time')?.hasError('required')">
+        Por favor indique el tiempo.
+      </mat-error>
     </mat-form-field>
 
-    <button mat-flat-button type="submit">Guardar Resultado</button>
+    <button mat-flat-button type="submit" color="primary">Guardar Resultado</button>
   </form>
 </div>
