@@ -1,90 +1,206 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
 .register-container {
-  margin-top: 100px;
-  margin-left: 500px;
-  padding: 6rem;
-  background: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 20px;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
+
+  .logo-container {
+    margin-bottom: 20px;
+
+    img {
+      height: 80px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .system-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 6px;
+  }
+
+  .system-subtitle {
+    font-size: 16px;
+    color: #7f8c8d;
+    font-weight: 400;
+  }
+}
+
+.register-card {
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.44);
-  font-family: 'Ubuntu', sans-serif;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+.register-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 24px;
+
+  mat-icon {
+    color: #1e88e5;
+  }
 }
 
 .form-group {
-  margin-left: 20px;
   display: flex;
-  flex-direction: row;
-  position: relative;
-  margin-bottom: 50px;
-  margin-top: 50px;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.input-field {
-  width: 150%;
-  padding: 8px;
-  border: 2px solid #ccc;
-  border-radius: 12px;
-  font-size: 16px;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c3e50;
+  }
+
+  input {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background-color: #f9f9f9;
+
+    &:focus {
+      border-color: #1e88e5;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+    }
+
+    &.invalid {
+      border-color: #e53935;
+    }
+  }
 }
 
-.input-field:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-label{
-  font-size: 20px;
-  padding: 7px;
-  margin: 10px;
-}
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
 
-small {
-  color: red;
-  font-size: 20px;
-  position: absolute;
-  top: 100%;
-  left: 0;
-}
+  button {
+    flex: 1;
+    min-width: 0; /* Permite que los botones se reduzcan proporcionalmente */
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+  }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, #62645b, #53554e);
-  border: none;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
+  .register-button {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    color: white;
 
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+    &:hover {
+      background: linear-gradient(135deg, #1976d2, #0d47a1);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+    }
+
+    &:disabled {
+      background: #bdc3c7;
+      transform: none;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .back-button {
+    background: white;
+    color: #1e88e5;
+    border: 1px solid #1e88e5 !important;
+
+    &:hover {
+      background-color: #e3f2fd;
+      transform: translateY(-2px);
+    }
+
+    mat-icon {
+      font-size: 18px;
+    }
+  }
 }
 
 .form-status {
-  margin-top: 10px;
   font-size: 14px;
-  color: #007bff;
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 6px;
   text-align: center;
-}
-.spacer{
-  margin: 3rem;
-}
-.error-container {
-  margin-top: 25px;
-  margin-left: 500px;
-  padding: 2rem;
-  font-family: 'Ubuntu', sans-serif;
 
+  &.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.error {
+    background-color: #ffebee;
+    color: #c62828;
+  }
 }
-h2{
-  text-align: center;
-  padding: 1rem;
+
+.error-message {
+  color: #e53935;
+  font-size: 13px;
+  margin-top: 4px;
 }
-p {
-  text-align: center;
-  color: #3d4149;
-  font-weight: bold;
-  font-family: 'Ubuntu', sans-serif;
+
+.domain-warning {
+  background-color: #fff8e1;
+  border-left: 4px solid #ffc107;
+  padding: 12px;
+  margin-top: 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #5d4037;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 480px) {
+  .action-buttons {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .register-card {
+    padding: 20px;
+  }
 }
