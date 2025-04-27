@@ -21,6 +21,7 @@ import {EmailService} from "../../../core/email-service.service";
     NgIf,
     MatIcon
   ],
+  standalone: true,
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {

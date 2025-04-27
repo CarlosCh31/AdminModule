@@ -10,6 +10,7 @@ import {AdminListComponent} from "../admin-list/admin-list.component";
 import {ActivityListComponent} from '../../../shared/activity/activity-list/activity-list.component';
 import {AthleteListComponent} from '../athlete-list/athlete-list.component';
 import { ResultsRegisterComponent } from '../../../shared/results-register/results-register.component';
+import {VolunteerListComponent} from '../../../shared/volunteer/volunteer-list/volunteer-list.component';
 
 @Component({
   selector: 'app-users',
@@ -22,7 +23,8 @@ import { ResultsRegisterComponent } from '../../../shared/results-register/resul
     AdminListComponent,
     ActivityListComponent,
     AthleteListComponent,
-    ResultsRegisterComponent
+    ResultsRegisterComponent,
+    VolunteerListComponent
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
