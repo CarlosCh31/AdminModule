@@ -29,7 +29,6 @@ export class AdminSidebarComponent {
     { label: 'Lista de atletas', icon: 'sports', route: 'atletas' },
     { label: 'Crear nuevo evento', icon: 'event', route: 'registerActivity' },
     { label: 'Ver eventos programados', icon: 'calendar_today', route: 'eventos' },
-    { label: 'Confirmaciones Google Calendar', icon: 'check_circle', route: '/eventos/confirmaciones' },
     { label: 'Voluntarios por disponibilidad', icon: 'insights', route: 'volunteer-list' },
     { label: 'Registrar Resultados', icon: 'emoji_events', route: 'register-results' }
 

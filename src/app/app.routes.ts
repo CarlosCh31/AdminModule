@@ -13,6 +13,6 @@ export const routes: Routes = [
   { path: 'athlete-manager/athletes', loadComponent: () => import('./modules/athlete-manager/athletes/athletes.component').then(m => m.AthletesComponent) },
   { path: 'athlete-manager/waitlist', loadComponent: () => import('./modules/athlete-manager/waitlist/waitlist.component').then(m => m.WaitlistComponent) },
   { path: 'admin-list', loadComponent: () => import('./modules/admin/admin-list/admin-list.component').then(m => m.AdminListComponent) },
-  { path: 'shared/register-results', loadComponent: () => import('./shared/results-register/results-register.component').then(m => m.ResultsRegisterComponent) }
-
+  { path: 'shared/register-results', loadComponent: () => import('./shared/results-register/results-register.component').then(m => m.ResultsRegisterComponent) },
+  { path: 'coordinator/index', loadComponent: () => import('./modules/athlete-manager/index-coordinator/index-coordinator.component').then(m => m.IndexCoordinatorComponent) }
 ];

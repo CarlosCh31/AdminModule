@@ -1,0 +1,32 @@
+<app-navbar/>
+<body class="container-all">
+<div>
+  <app-side-bar />
+</div>
+
+<div>
+  @switch(this.userService.getUser()) {
+
+    @case('Iniciacion') {
+      <app-admin-program class="container"></app-admin-program>
+    }
+
+    @case('dashboard') {
+      <app-dashboard class="container"></app-dashboard>
+    }
+
+    @case('registerActivity') {
+      <app-activity-register class="container"></app-activity-register>
+    }
+
+
+    @case('volunteer-list') {
+      <app-volunteer-list class="container"></app-volunteer-list>
+    }
+    @case('calendar') {
+      <app-calendario class="container"></app-calendario>
+    }
+
+  }
+</div>
+</body>

@@ -23,7 +23,7 @@ export class LoginComponent {
   private pageStrategies: Record<string, () => void> = {
     'admin@example.com': () => this.router.navigate(['admin/users']),
     'info@olimpiadasespeciales.cr': () => this.router.navigate(['admin/users']),
-    'psalazar@olimpiadasespeciales.cr': () => this.router.navigate(['athlete-manager/dashboard']),
+    'psalazar@olimpiadasespeciales.cr': () => this.router.navigate(['coordinator/index']),
   };
 
   private pageAssigner() {
