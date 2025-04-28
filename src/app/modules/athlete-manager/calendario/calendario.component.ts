@@ -24,7 +24,7 @@ export class CalendarioComponent {
   }
 
   previous() {
-    if (this.currentView === 'month') {
+    if (this.currentView === 'week') {
       this.currentDate.setDate(this.currentDate.getDate() - 7);
     } else {
       this.currentDate.setMonth(this.currentDate.getMonth() - 1);
@@ -33,7 +33,7 @@ export class CalendarioComponent {
   }
 
   next() {
-    if (this.currentView === 'month') {
+    if (this.currentView === 'week') {
       this.currentDate.setDate(this.currentDate.getDate() + 7);
     } else {
       this.currentDate.setMonth(this.currentDate.getMonth() + 1);

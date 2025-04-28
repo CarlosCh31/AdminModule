@@ -20,10 +20,6 @@
         <p>{{ activity.description }}</p>
         <small>{{ activity.time }} | {{ activity.modality }} | {{ activity.location }}</small>
       </div>
-
-      <div *ngIf="day.activities.length === 0" class="empty-message">
-        Sin actividades
-      </div>
     </ng-container>
 
     <ng-template #emptyDay>
