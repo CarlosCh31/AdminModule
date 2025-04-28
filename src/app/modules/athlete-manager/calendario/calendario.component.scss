@@ -1,0 +1,245 @@
+/* ---------- Header ---------- */
+
+
+/* --------- Encabezado bonito --------- */
+.calendar-top {
+  background: linear-gradient(135deg, rgba(66, 165, 245, 0.41), rgba(102, 187, 106, 0.35));
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-title {
+  text-align: center;
+}
+
+.calendar-title h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.calendar-title p {
+  margin: 0.5rem 0 0 0;
+  font-size: 1rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.calendar-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Botones principales */
+.calendar-header button {
+  background-color: #42a5f5;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover */
+.calendar-header button:hover {
+  background-color: #1e88e5;
+}
+
+/* Botones secundarios */
+.calendar-header button:nth-child(3),
+.calendar-header button:nth-child(4),
+.calendar-header button:nth-child(5) {
+  background-color: #66bb6a;
+}
+
+.calendar-header button:nth-child(3):hover,
+.calendar-header button:nth-child(4):hover,
+.calendar-header button:nth-child(5):hover {
+  background-color: #43a047;
+}
+
+/* Input */
+.calendar-header input {
+  flex-grow: 1;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* ---------- Body ---------- */
+.calendar-body {
+  padding: 0 1rem;
+}
+
+/* ---------- Semana / Mes Compacto ---------- */
+
+/* Títulos (semana o mes) */
+.week-title,
+.month-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+/* Contenedor de días */
+.kanban-board,
+.month-board {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.6rem;
+  padding: 0.5rem;
+}
+
+/* Día */
+.day-column {
+  background-color: #f4f6f8;
+  border-radius: 8px;
+  padding: 0.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+
+/* Día de hoy */
+.today-column {
+  border: 2px solid #42a5f5;
+}
+
+/* Título del día */
+.day-column h2 {
+  text-align: center;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Tarjeta de actividad */
+.activity-card {
+  background: white;
+  border-left: 4px solid #ccc;
+  border-radius: 6px;
+  padding: 0.4rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Nombre de actividad */
+.activity-card h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Descripción */
+.activity-card p {
+  margin: 0.2rem 0;
+  font-size: 0.75rem;
+  color: #555;
+}
+
+/* Hora y lugar */
+.activity-card small {
+  font-size: 0.7rem;
+  color: #777;
+}
+
+/* Tag */
+.tag {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #42a5f5;
+  color: white;
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Sin actividades */
+.empty-message {
+  margin-top: auto;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #bbb;
+}
+
+
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.modal {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 1400px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  position: relative;
+}
+.material-icons {
+  font-size: 1.8rem;
+  vertical-align: middle;
+}
+
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+/* Responsive compacto */
+@media (max-width: 768px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .calendar-header button,
+  .calendar-header input {
+    width: 100%;
+  }
+
+  .kanban-board,
+  .month-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

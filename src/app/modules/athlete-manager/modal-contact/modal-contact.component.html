@@ -1,0 +1,23 @@
+<div class="modal-container">
+  <h2>Información de Contacto</h2>
+
+  <div class="contact-info">
+    <p><strong>Nombre:</strong> {{ data.athlete.name }}</p>
+    <p><strong>Teléfono:</strong> {{ data.athlete.phone_number || 'No disponible' }}</p>
+    <p><strong>Correo:</strong> {{ data.athlete.email || 'No disponible' }}</p>
+  </div>
+
+  <h3>Enviar Correo</h3>
+
+  <form (ngSubmit)="sendEmail()" #emailForm="ngForm">
+    <input type="text" [(ngModel)]="subject" name="subject" placeholder="Asunto" required>
+    <textarea [(ngModel)]="body" name="body" placeholder="Mensaje" rows="4" required></textarea>
+
+    <div class="modal-actions">
+      <button mat-button color="primary" type="submit" [disabled]="sending || emailForm.invalid">Enviar</button>
+      <button mat-button (click)="close()" type="button">Cerrar</button>
+    </div>
+
+    <p *ngIf="responseMessage">{{ responseMessage }}</p>
+  </form>
+</div>

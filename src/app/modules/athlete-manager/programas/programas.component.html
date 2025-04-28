@@ -1,0 +1,69 @@
+<div class="admin-program-header">
+  <h1>Administrar Subprogramas</h1>
+
+  <div class="filters">
+    <label for="subProgramSelect">Subprograma:</label>
+    <select id="subProgramSelect" [(ngModel)]="selectedSubProgram" (change)="filterBySubProgram()">
+      <option value="">Todos</option>
+      <option value="Atletas Jóvenes">Atletas Jóvenes (0-8 años)</option>
+      <option value="Iniciación Deportiva">Iniciación Deportiva (8-14 años)</option>
+    </select>
+
+    <button mat-icon-button color="primary" (click)="0">
+      <mat-icon>person_add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef >ID</th>
+    <td mat-cell *matCellDef="let athlete">{{ athlete.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef >Nombre</th>
+    <td mat-cell *matCellDef="let athlete">{{ athlete.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="age">
+    <th mat-header-cell *matHeaderCellDef >Edad</th>
+    <td mat-cell *matCellDef="let athlete">{{ athlete.age }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="phone_number">
+    <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+    <td mat-cell *matCellDef="let athlete">{{ athlete.phone_number }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="laterality">
+    <th mat-header-cell *matHeaderCellDef>Lateralidad</th>
+    <td mat-cell *matCellDef="let athlete">{{ athlete.laterality }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="disability_type">
+    <th mat-header-cell *matHeaderCellDef>Discapacidad</th>
+    <td mat-cell *matCellDef="let athlete">{{ athlete.disability_type }}</td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let athlete">
+      <button mat-icon-button color="accent" (click)="editAthlete(athlete)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteAthlete(athlete.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="openContactDialog(athlete)">
+        <mat-icon>contact_mail</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>

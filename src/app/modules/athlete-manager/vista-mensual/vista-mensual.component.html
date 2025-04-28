@@ -1,0 +1,33 @@
+<h1 class="month-title">{{ monthName }}</h1>
+
+<div class="month-board">
+  <div class="day-column"
+       *ngFor="let day of daysOfMonth"
+       [ngClass]="{ 'today-column': isToday(day.dayNumber) }">
+
+    <h2 *ngIf="day.dayNumber !== null">{{ day.dayNumber }}</h2>
+
+    <ng-container *ngIf="day.dayNumber !== null; else emptyDay">
+      <div *ngFor="let activity of day.activities"
+           class="activity-card"
+           [style.borderLeft]=" '5px solid ' + getTypeColor(activity.type) ">
+
+        <div class="tag" [style.backgroundColor]="getTypeColor(activity.type)">
+          {{ activity.type }}
+        </div>
+
+        <h4>{{ activity.name }}</h4>
+        <p>{{ activity.description }}</p>
+        <small>{{ activity.time }} | {{ activity.modality }} | {{ activity.location }}</small>
+      </div>
+
+      <div *ngIf="day.activities.length === 0" class="empty-message">
+        Sin actividades
+      </div>
+    </ng-container>
+
+    <ng-template #emptyDay>
+      <!-- Celda vacía (sin número) -->
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="calendar-top">
+  <div class="calendar-title">
+    <h1>📅 Calendario de Actividades</h1>
+    <p>Administra tus eventos de manera eficiente</p>
+  </div>
+</div>
+
+<div class="calendar-header">
+  <button (click)="changeView('week')" title="Vista Semanal">
+    <span class="material-icons">view_week</span>
+  </button>
+  <button (click)="changeView('month')" title="Vista Mensual">
+    <span class="material-icons">calendar_month</span>
+  </button>
+
+  <button (click)="previous()" title="Anterior">←</button>
+  <button (click)="today()" title="Hoy">Hoy</button>
+  <button (click)="next()" title="Siguiente">→</button>
+
+  <div class="spacer"></div>
+
+  <button (click)="openAddEventModal()" title="Agregar Evento">➕</button>
+
+  <div class="modal-backdrop" *ngIf="showAddEventModal">
+    <div class="modal">
+      <button class="close-button" (click)="closeAddEventModal()">✖️</button>
+
+      <!-- Aquí montas tu componente de agregar -->
+      <app-activity-register></app-activity-register>
+    </div>
+  </div>
+</div>
+
+<div class="calendar-body">
+
+  <app-vista-mensual
+    *ngIf="currentView === 'month'"
+    [currentDate]="currentDate"
+    [searchQuery]="searchQuery">
+  </app-vista-mensual>
+
+  <app-vista-semanal
+    *ngIf="currentView === 'week'"
+    [currentDate]="currentDate"
+    [searchQuery]="searchQuery">
+  </app-vista-semanal>
+
+</div>

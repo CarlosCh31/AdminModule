@@ -1,0 +1,81 @@
+.week-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.day-column {
+  background-color: #f4f6f8;
+  border-radius: 10px;
+  padding: 0.8rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  transition: border 0.3s ease;
+}
+
+.today-column {
+  border: 2px solid #42a5f5;
+}
+
+.day-column h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.activity-card {
+  background: white;
+  border-left: 5px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.activity-card h4 {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.activity-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.activity-card small {
+  font-size: 0.7rem;
+  color: #777;
+}
+
+.tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #42a5f5;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.empty-message {
+  margin-top: auto;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #bbb;
+}
