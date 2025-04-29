@@ -6,7 +6,17 @@ import { Observable } from 'rxjs';
 import { AthleteService } from '../../../core/athlete.service';
 import { AthleteEditDialogComponent } from '../athlete-edit-dialog/athlete-edit-dialog.component';
 import { NgIf } from '@angular/common';
-import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef } from '@angular/material/table';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef
+} from '@angular/material/table';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -29,7 +39,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatHeaderRowDef,
     MatRowDef,
     MatSortModule,
-    MatMenuModule,
+    MatMenuModule
   ],
   templateUrl: './athlete-list.component.html',
   styleUrl: './athlete-list.component.scss',
@@ -39,7 +49,13 @@ export class AthleteListComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
-  displayedColumns: string[] = ['id', 'name', 'age', 'phone_number', 'laterality', 'disability_type', 'weight', 'height', 'actions'];
+  // Configuración de paginación
+  readonly itemsPerPage = 6;
+  currentPage = 1;
+  totalPages = 1;
+  paginatedData: any[] = [];
+
+  displayedColumns: string[] = ['id', 'name', 'age', 'phone_number', 'laterality', 'disability_type', 'actions'];
   athletes: any[] = [];
   sortedData: any[] = [];
 
@@ -56,6 +72,7 @@ export class AthleteListComponent implements OnInit {
           age: this.calculateAge(athlete.birthdate || athlete.person?.birth_date)
         }));
         this.sortedData = [...this.athletes];
+        this.updatePagination();
       },
       error: (err) => {
         console.error('Error cargando atletas:', err);
@@ -100,6 +117,8 @@ export class AthleteListComponent implements OnInit {
       if (nameA > nameB) return direction === 'asc' ? 1 : -1;
       return 0;
     });
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   sortByAge(direction: 'asc' | 'desc') {
@@ -109,6 +128,8 @@ export class AthleteListComponent implements OnInit {
       }
       return b.age - a.age;
     });
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   updateAthlete(athlete: any) {
@@ -139,5 +160,25 @@ export class AthleteListComponent implements OnInit {
     });
   }
 
-}
+  // Métodos de paginación
+  updatePagination() {
+    this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.sortedData.slice(startIndex, endIndex);
+  }
 
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
+  }
+}
