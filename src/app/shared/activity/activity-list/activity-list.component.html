@@ -1,96 +1,128 @@
 <div class="container-all">
-  <h2 class="table-title">
-    <mat-icon style="vertical-align: middle; margin-right: 8px;">event</mat-icon>
-    Lista de actividades
-  </h2>
+  <div class="header-container">
+    <h2 class="table-title">
+      <mat-icon style="vertical-align: middle; margin-right: 8px;">event</mat-icon>
+      Lista de Eventos
+    </h2>
 
-  <table mat-table [dataSource]="activities" class="mat-elevation-z8">
-
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.id}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef> Tipo </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.type}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.name}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef> Descripción </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.description}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef> Fecha </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.date}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="time">
-    <th mat-header-cell *matHeaderCellDef> Hora </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.time}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="duration">
-    <th mat-header-cell *matHeaderCellDef> Duración </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.duration}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="location">
-    <th mat-header-cell *matHeaderCellDef> Ubicación </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.location}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="modality">
-    <th mat-header-cell *matHeaderCellDef> Modalidad </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.modality}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="maxParticipants">
-    <th mat-header-cell *matHeaderCellDef> Máx. Participantes </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.maxParticipants}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="minimumAge">
-    <th mat-header-cell *matHeaderCellDef> Edad minima </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.minimumAge}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="maximumAge">
-    <th mat-header-cell *matHeaderCellDef> Edad maxima </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.maximumAge}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="administratorEmail">
-    <th mat-header-cell *matHeaderCellDef> Correo administrador </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.administratorEmail}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="state">
-    <th mat-header-cell *matHeaderCellDef> Estado </th>
-    <td mat-cell *matCellDef="let activity"> {{activity.state}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-    <td mat-cell *matCellDef="let activity">
-      <button mat-icon-button color="primary" (click)="updateActivity(activity)">
-        <mat-icon>edit</mat-icon>
+    <div class="actions-container">
+      <button mat-stroked-button color="primary" [matMenuTriggerFor]="sortMenu" class="sort-button">
+        <mat-icon>sort</mat-icon>
+        Ordenar
+        <mat-icon>expand_more</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="deleteActivity(activity.id)">
-        <mat-icon>delete</mat-icon>
+      <mat-menu #sortMenu="matMenu" class="sort-menu">
+        <button mat-menu-item (click)="sortBy('id', 'asc')">
+          <mat-icon>sort_by_alpha</mat-icon>
+          <span>ID (Menor a mayor)</span>
+        </button>
+        <button mat-menu-item (click)="sortBy('id', 'desc')">
+          <mat-icon>sort_by_alpha</mat-icon>
+          <span>ID (Mayor a menor)</span>
+        </button>
+        <button mat-menu-item (click)="sortBy('date', 'desc')">
+          <mat-icon>arrow_downward</mat-icon>
+          <span>Fecha (Más reciente)</span>
+        </button>
+        <button mat-menu-item (click)="sortBy('date', 'asc')">
+          <mat-icon>arrow_upward</mat-icon>
+          <span>Fecha (Más antigua)</span>
+        </button>
+        <button mat-menu-item (click)="sortBy('name', 'asc')">
+          <mat-icon>sort_by_alpha</mat-icon>
+          <span>Nombre (A-Z)</span>
+        </button>
+        <button mat-menu-item (click)="sortBy('name', 'desc')">
+          <mat-icon>sort_by_alpha</mat-icon>
+          <span>Nombre (Z-A)</span>
+        </button>
+        <button mat-menu-item (click)="sortByState('active')">
+          <mat-icon>check_circle</mat-icon>
+          <span>Activos primero</span>
+        </button>
+        <button mat-menu-item (click)="sortByState('inactive')">
+          <mat-icon>cancel</mat-icon>
+          <span>Inactivos primero</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="paginatedData" class="mat-elevation-z8">
+      <ng-container matColumnDef="id" class="mat-column-id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let activity"> {{ activity.id }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name" class="mat-column-name">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let activity"> {{ activity.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type" class="mat-column-type">
+        <th mat-header-cell *matHeaderCellDef> Tipo </th>
+        <td mat-cell *matCellDef="let activity"> {{ activity.type }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date" class="mat-column-date">
+        <th mat-header-cell *matHeaderCellDef> Fecha </th>
+        <td mat-cell *matCellDef="let activity"> {{ formatDate(activity.date) }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="time" class="mat-column-time">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let activity"> {{ activity.time }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="location" class="mat-column-location">
+        <th mat-header-cell *matHeaderCellDef> Ubicación </th>
+        <td mat-cell *matCellDef="let activity"> {{ activity.location }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="state" class="mat-column-state">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let activity">
+          <span class="state-badge" [class.active]="activity.state === 'activo'">
+            {{ activity.state === 'activo' ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" class="mat-column-actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let activity">
+          <button mat-icon-button color="primary" (click)="updateActivity(activity)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteActivity(activity.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="paginator-container">
+      <button mat-stroked-button
+              [disabled]="currentPage === 1"
+              (click)="previousPage()">
+        <mat-icon>chevron_left</mat-icon>
+        Anterior
       </button>
-    </td>
-  </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <div class="page-indicator">
+        Página {{currentPage}} de {{totalPages}}
+      </div>
 
-</table>
-  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+      <button mat-stroked-button
+              [disabled]="currentPage === totalPages"
+              (click)="nextPage()">
+        Siguiente
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>

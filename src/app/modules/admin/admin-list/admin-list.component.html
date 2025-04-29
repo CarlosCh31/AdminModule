@@ -1,44 +1,92 @@
 <div class="container-all">
-  <table mat-table [dataSource]="admins" class="mat-elevation-z8">
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let admin"> {{ admin.id }} </td>
-    </ng-container>
+  <div class="header-container">
+    <h2 class="table-title">
+      <mat-icon style="vertical-align: middle; margin-right: 8px;">group</mat-icon>
+      Administrar Coordinadores
+    </h2>
 
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let admin"> {{ admin.email }} </td>
-    </ng-container>
+    <button mat-stroked-button color="primary" [matMenuTriggerFor]="sortMenu" class="sort-button">
+      <mat-icon>sort</mat-icon>
+      Ordenar
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #sortMenu="matMenu" class="sort-menu">
+      <button mat-menu-item (click)="sortBy('id', 'asc')">
+        <mat-icon>sort_by_alpha</mat-icon>
+        <span>ID (Menor a mayor)</span>
+      </button>
+      <button mat-menu-item (click)="sortBy('id', 'desc')">
+        <mat-icon>sort_by_alpha</mat-icon>
+        <span>ID (Mayor a menor)</span>
+      </button>
+      <button mat-menu-item (click)="sortBy('email', 'asc')">
+        <mat-icon>sort_by_alpha</mat-icon>
+        <span>Email (A-Z)</span>
+      </button>
+      <button mat-menu-item (click)="sortBy('email', 'desc')">
+        <mat-icon>sort_by_alpha</mat-icon>
+        <span>Email (Z-A)</span>
+      </button>
+    </mat-menu>
+  </div>
 
-    <!-- Password Column -->
-    <ng-container matColumnDef="password">
-      <th mat-header-cell *matHeaderCellDef> Password </th>
-      <td mat-cell *matCellDef="let admin">
-        <span *ngIf="!showPasswords[admin.id]">********</span>
-        <span *ngIf="showPasswords[admin.id]">{{ admin.password }}</span>
-        <button mat-icon-button (click)="togglePasswordVisibility(admin.id)">
-          <mat-icon>{{ showPasswords[admin.id] ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+  <div class="table-container">
+    <table mat-table [dataSource]="paginatedData" class="mat-elevation-z8">
+      <ng-container matColumnDef="id" class="mat-column-id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.id }} </td>
+      </ng-container>
 
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Acciones </th>
-      <td mat-cell *matCellDef="let admin">
-        <button mat-icon-button color="primary" (click)="updateAdmin(admin)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="deleteAdmin(admin)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="email" class="mat-column-email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.email }} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <ng-container matColumnDef="password" class="mat-column-password">
+        <th mat-header-cell *matHeaderCellDef> Contraseña </th>
+        <td mat-cell *matCellDef="let admin">
+          <span *ngIf="!showPasswords[admin.id]">••••••••</span>
+          <span *ngIf="showPasswords[admin.id]">{{ admin.password }}</span>
+          <button mat-icon-button (click)="togglePasswordVisibility(admin.id)">
+            <mat-icon>{{ showPasswords[admin.id] ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
+      <ng-container matColumnDef="actions" class="mat-column-actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let admin">
+          <button mat-icon-button color="primary" (click)="updateAdmin(admin)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteAdmin(admin)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="paginator-container">
+      <button mat-stroked-button
+              [disabled]="currentPage === 1"
+              (click)="previousPage()">
+        <mat-icon>chevron_left</mat-icon>
+        Anterior
+      </button>
+
+      <div class="page-indicator">
+        Página {{currentPage}} de {{totalPages}}
+      </div>
+
+      <button mat-stroked-button
+              [disabled]="currentPage === totalPages"
+              (click)="nextPage()">
+        Siguiente
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
