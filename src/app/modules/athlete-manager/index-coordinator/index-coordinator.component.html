@@ -1,4 +1,4 @@
-<app-navbar/>
+<app-admin-navbar></app-admin-navbar>
 <body class="container-all">
 <div>
   <app-side-bar />
@@ -25,6 +25,9 @@
     }
     @case('calendar') {
       <app-calendario class="container"></app-calendario>
+    }
+    @case ('perfil'){
+      <app-coordinator-profile></app-coordinator-profile>
     }
 
   }

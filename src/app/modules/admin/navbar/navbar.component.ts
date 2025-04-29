@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/auth.service';
+import {UserService} from '../../../core/user.service';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -25,7 +26,8 @@ import { AuthService } from '../../../core/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class AdminNavbarComponent {
-  // ✅ Hacer públicas las variables para que sean accesibles en el HTML
+  protected userService = inject(UserService);
+
   public notifications: number = 3;
   public messages: number = 1;
 
@@ -35,5 +37,8 @@ export class AdminNavbarComponent {
     console.log("Cerrando sesión...");
     this.authService.logout();
     this.router.navigate(['/auth/login']);
+  }
+  public perfil(): void {
+    this.userService.setUser("perfil");
   }
 }

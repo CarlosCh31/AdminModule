@@ -1,20 +1,25 @@
 <mat-toolbar color="primary" class="admin-navbar">
-
   <span class="spacer"></span>
 
-  <!-- Íconos de acciones -->
-
   <h3 class="tittle">Olimpiadas Especiales de Costa Rica</h3>
+
   <button mat-icon-button [matBadge]="notifications" matBadgeColor="warn">
     <mat-icon>notifications</mat-icon>
   </button>
 
-  <!-- Perfil de usuario -->
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+  <!-- Menú de usuario -->
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="perfil()">
+      <mat-icon>person</mat-icon>
+      <span>Perfil</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Cerrar sesión</span>
+    </button>
   </mat-menu>
 
-  <button mat-button [matMenuTriggerFor]="menu" class="profile-button">
-    <mat-icon> account_circle </mat-icon>
+  <button mat-button [matMenuTriggerFor]="userMenu" class="profile-button">
+    <mat-icon>account_circle</mat-icon>
   </button>
 </mat-toolbar>

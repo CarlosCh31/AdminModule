@@ -11,6 +11,7 @@ export class AuthService {
   private _isLoggedIn = false;
   baseUrl = 'http://localhost:8080/api/admin';
   private userRole: string = '';
+  private _currentUser: any = null;
 
   register(data: any) {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
@@ -24,6 +25,7 @@ export class AuthService {
   login(credentials: { email: string; password: string }) {
     return this.httpClient.post<{ token: string; role: string }>(`${this.baseUrl}/login`, credentials).pipe(
       tap((res) => {
+        this._currentUser = res;
         localStorage.setItem('authUser', res.token);
         this.userRole = res.role;
         this._isLoggedIn = true;
@@ -47,7 +49,9 @@ export class AuthService {
   getUserRole(): string {
     return this.userRole;
   }
-
+  getCurrentUser(): any {
+    return this._currentUser;
+  }
   deleteAdmin(data: any){
     return this.httpClient.put(`${this.baseUrl}/delete`, data)
       .pipe(tap((result) => {

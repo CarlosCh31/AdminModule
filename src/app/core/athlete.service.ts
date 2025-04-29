@@ -31,4 +31,8 @@ export class AthleteService {
           console.log(`Atleta con ID ${id} eliminado`);
         }));
   }
+
+  saveAthlete(athleteData: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}`, athleteData);
+  }
 }

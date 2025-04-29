@@ -1,7 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AthleteService } from '../../../core/athlete.service';
-import {FormsModule} from '@angular/forms';
-import {NgForOf} from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 import {
   MatCell, MatCellDef,
   MatColumnDef,
@@ -10,37 +11,42 @@ import {
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
-import {MatDialog} from '@angular/material/dialog';
-import {MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {MatSort} from '@angular/material/sort';
-import {ModalContactComponent} from '../modal-contact/modal-contact.component'; // Ajusta tu path real
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSort } from '@angular/material/sort';
+import { ModalContactComponent } from '../modal-contact/modal-contact.component';
+import { ModalAddAthleteComponent } from '../modal-add-athlete/modal-add-athlete.component';
 
 @Component({
   selector: 'app-admin-program',
+  standalone: true,
   templateUrl: './programas.component.html',
   styleUrls: ['./programas.component.scss'],
   imports: [
     FormsModule,
-    MatIconButton,
-    MatIcon,
+    CommonModule,
     MatTable,
     MatColumnDef,
     MatHeaderCell,
-    MatSort,
     MatHeaderCellDef,
     MatCell,
     MatCellDef,
     MatHeaderRow,
     MatHeaderRowDef,
     MatRow,
-    MatRowDef
+    MatRowDef,
+    MatSort,
+    MatButtonModule,
+    MatIconButton,
+    MatIcon,
+    MatDialogModule
   ]
 })
 export class ProgramasComponent implements OnInit {
+
   private athleteService = inject(AthleteService);
   private dialog = inject(MatDialog);
-
   displayedColumns: string[] = [
     'id',
     'name',
@@ -54,7 +60,9 @@ export class ProgramasComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   allAthletes: any[] = [];
   selectedSubProgram: string = '';
-   ModalContactComponent= ModalContactComponent;
+
+  ModalContactComponent = ModalContactComponent;
+  ModalAddAthleteComponent = ModalAddAthleteComponent;
 
   ngOnInit() {
     this.loadAthletes();
@@ -102,9 +110,23 @@ export class ProgramasComponent implements OnInit {
     });
   }
 
+  openAddDialog() {
+    console.log('Abriendo modal de agregar atleta');
+    const dialogRef = this.dialog.open(this.ModalAddAthleteComponent, {
+      width: '1000px'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Nuevo atleta:', result);
+      }
+
+    });
+  }
+
   editAthlete(athlete: any) {
     console.log('Editar atleta', athlete);
-    // Aquí podrías abrir tu AthleteEditDialogComponent
+    // Aquí podrías abrir otro modal de edición
   }
 
   deleteAthlete(id: number) {
