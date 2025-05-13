@@ -1,45 +1,61 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AthleteService } from '../../../core/athlete.service';
-import {FormsModule} from '@angular/forms';
-import {NgForOf} from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import {
-  MatCell, MatCellDef,
+  MatCell,
+  MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable,
-  MatTableDataSource
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
 } from '@angular/material/table';
-import {MatDialog} from '@angular/material/dialog';
-import {MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {MatSort} from '@angular/material/sort';
-import {ModalContactComponent} from '../modal-contact/modal-contact.component'; // Ajusta tu path real
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
+import { ModalContactComponent } from '../modal-contact/modal-contact.component';
 
 @Component({
   selector: 'app-admin-program',
-  templateUrl: './programas.component.html',
-  styleUrls: ['./programas.component.scss'],
+  standalone: true,
   imports: [
-    FormsModule,
-    MatIconButton,
-    MatIcon,
     MatTable,
     MatColumnDef,
     MatHeaderCell,
-    MatSort,
-    MatHeaderCellDef,
     MatCell,
     MatCellDef,
+    MatHeaderCellDef,
+    MatIcon,
     MatHeaderRow,
-    MatHeaderRowDef,
     MatRow,
-    MatRowDef
-  ]
+    MatIconButton,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatSortModule
+  ],
+  templateUrl: './programas.component.html',
+  styleUrls: ['./programas.component.scss']
 })
 export class ProgramasComponent implements OnInit {
   private athleteService = inject(AthleteService);
   private dialog = inject(MatDialog);
+
+  // Configuración de paginación
+  readonly itemsPerPage = 6;
+  currentPage = 1;
+  totalPages = 1;
+  paginatedData: any[] = [];
 
   displayedColumns: string[] = [
     'id',
@@ -51,10 +67,10 @@ export class ProgramasComponent implements OnInit {
     'actions'
   ];
 
-  dataSource = new MatTableDataSource<any>([]);
   allAthletes: any[] = [];
+  sortedData: any[] = [];
   selectedSubProgram: string = '';
-   ModalContactComponent= ModalContactComponent;
+  ModalContactComponent = ModalContactComponent;
 
   ngOnInit() {
     this.loadAthletes();
@@ -68,7 +84,8 @@ export class ProgramasComponent implements OnInit {
           name: athlete.name,
           age: this.calculateAge(athlete.birthdate || athlete.person?.birth_date)
         }));
-        this.dataSource.data = [...this.allAthletes];
+        this.sortedData = [...this.allAthletes];
+        this.updatePagination();
       },
       error: (err) => console.error('Error cargando atletas:', err),
     });
@@ -89,10 +106,36 @@ export class ProgramasComponent implements OnInit {
 
   filterBySubProgram() {
     if (this.selectedSubProgram) {
-      this.dataSource.data = this.allAthletes.filter(a => a.subProgram === this.selectedSubProgram);
+      this.sortedData = this.allAthletes.filter(a => a.subProgram === this.selectedSubProgram);
     } else {
-      this.dataSource.data = [...this.allAthletes];
+      this.sortedData = [...this.allAthletes];
     }
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortByName(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.sortedData].sort((a, b) => {
+      const nameA = (a.name || '').toString().toLowerCase();
+      const nameB = (b.name || '').toString().toLowerCase();
+
+      if (nameA < nameB) return direction === 'asc' ? -1 : 1;
+      if (nameA > nameB) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortByAge(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.sortedData].sort((a, b) => {
+      if (direction === 'asc') {
+        return a.age - b.age;
+      }
+      return b.age - a.age;
+    });
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   openContactDialog(athlete: any) {
@@ -104,7 +147,12 @@ export class ProgramasComponent implements OnInit {
 
   editAthlete(athlete: any) {
     console.log('Editar atleta', athlete);
-    // Aquí podrías abrir tu AthleteEditDialogComponent
+    // Implementar lógica de edición
+  }
+
+  addAthlete() {
+    console.log('Agregar nuevo atleta');
+    // Implementar lógica para agregar nuevo atleta
   }
 
   deleteAthlete(id: number) {
@@ -115,5 +163,27 @@ export class ProgramasComponent implements OnInit {
       },
       error: (err) => console.error('Error eliminando atleta:', err),
     });
+  }
+
+  // Métodos de paginación
+  updatePagination() {
+    this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.sortedData.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
   }
 }
