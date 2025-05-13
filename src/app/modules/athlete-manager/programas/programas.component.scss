@@ -1,34 +1,231 @@
-.admin-program-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+.container-all {
+  padding: 24px;
+  background-color: #f8f9fa;
 }
 
-.filters {
+.header-container {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.athletes-table {
+.table-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.filters-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  label {
+    font-weight: 500;
+    color: #555;
+  }
+}
+
+.sort-button, .add-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #e3f2fd;
+    transform: translateY(-2px);
+  }
+
+  .mat-icon {
+    color: #fc4048;
+  }
+}
+
+.add-button {
+  margin-left: auto;
+}
+
+.table-container {
+  overflow-x: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
+
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  th {
+    background-color: #fc4048;
+    color: white;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+
+    &:first-child {
+      border-top-left-radius: 8px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 8px;
+    }
+  }
+
+  td {
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
 }
 
-.athletes-table th, .athletes-table td {
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  text-align: center;
+/* Definición de anchos para cada columna */
+.mat-column-id {
+  width: 80px;
+  min-width: 80px;
 }
 
-.athletes-table th {
-  background-color: #f4f4f4;
+.mat-column-name {
+  width: 200px;
+  min-width: 150px;
+  max-width: 200px;
 }
 
-.athletes-table button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
+.mat-column-age {
+  width: 100px;
+  min-width: 80px;
+}
+
+.mat-column-phone {
+  width: 120px;
+  min-width: 120px;
+}
+
+.mat-column-laterality {
+  width: 120px;
+  min-width: 100px;
+}
+
+.mat-column-disability {
+  width: 150px;
+  min-width: 120px;
+}
+
+.mat-column-actions {
+  width: 180px;
+  min-width: 180px;
+  text-align: center !important;
+}
+
+.mat-icon-button {
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.mat-primary {
+    color: #1e88e5;
+  }
+
+  &.mat-warn {
+    color: #e53935;
+  }
+
+  &.mat-accent {
+    color: #ff4081;
+  }
+}
+
+.paginator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover:not([disabled]) {
+      background-color: #e3f2fd;
+      transform: translateY(-2px);
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Estilos para el select de Material */
+.mat-form-field {
+  width: 250px;
+}
+
+.mat-select-value {
+  color: #333;
+}
+
+.mat-select-arrow {
+  color: #666;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.12);
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #fc4048;
 }

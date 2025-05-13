@@ -57,10 +57,29 @@ export class ResultsRegisterComponent implements OnInit {
   submit() {
     if (this.form.invalid) return;
 
-    const data = this.form.value;
-    this.http.post('http://localhost:8080/api/results/register', data).subscribe({
-      next: () => alert('Resultado guardado correctamente.'),
-      error: err => alert('Error al guardar resultado.')
+    const formData = this.form.value;
+
+    const payload = {
+      activity: formData.activityId ,
+      athlete:  formData.athleteId ,
+      position: formData.position,
+      time: formData.time
+    };
+    this.http.post('http://localhost:8080/api/results/register', payload, { responseType: 'text' }).subscribe({
+      next: (response) => {
+        alert(response); // Mostrar mensaje de éxito enviado por el backend
+      },
+      error: (error) => {
+        if (error.status === 400) {
+          alert('Error de integridad: ' + error.error); // Muestra el error de datos FK/PK
+        } else if (error.status === 500) {
+          alert('Error del servidor: ' + error.error); // Muestra error interno
+        } else {
+          alert('Error desconocido: ' + error.error);
+        }
+      }
     });
   }
+
+
 }

@@ -1,4 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { MatTable } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../../core/auth.service';
+import { AdminEditDialogComponent } from '../admin-edit-dialog/admin-edit-dialog.component';
+import { NgIf } from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -8,18 +15,12 @@ import {
   MatHeaderRow,
   MatHeaderRowDef,
   MatRow,
-  MatRowDef,
-  MatTable,
+  MatRowDef
 } from '@angular/material/table';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
-import { AuthService } from '../../../core/auth.service';
-import { Observable } from 'rxjs';
-import {MatDialog} from '@angular/material/dialog';
-import {AdminEditDialogComponent} from '../admin-edit-dialog/admin-edit-dialog.component';
-import {Router} from '@angular/router';
-import {UserService} from '../../../core/user.service';
+import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-admin-list',
@@ -37,7 +38,9 @@ import {UserService} from '../../../core/user.service';
     MatHeaderRow,
     MatHeaderRowDef,
     MatRowDef,
-    NgIf,
+    MatSortModule,
+    MatMenuModule,
+    NgIf
   ],
   templateUrl: './admin-list.component.html',
   styleUrl: './admin-list.component.scss',
@@ -46,10 +49,16 @@ export class AdminListComponent implements OnInit {
   private authService = inject(AuthService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
-  private variable = inject(UserService);
+
+  // Configuración de paginación
+  readonly itemsPerPage = 6;
+  currentPage = 1;
+  totalPages = 1;
+  paginatedData: any[] = [];
 
   displayedColumns: string[] = ['id', 'email', 'password', 'actions'];
   admins: any[] = [];
+  sortedData: any[] = [];
   showPasswords: { [key: number]: boolean } = {};
 
   ngOnInit() {
@@ -61,6 +70,8 @@ export class AdminListComponent implements OnInit {
     adminsObservable.subscribe({
       next: (data) => {
         this.admins = data;
+        this.sortedData = [...this.admins];
+        this.updatePagination();
       },
       error: (err) => {
         console.error('Error cargando administradores:', err);
@@ -72,6 +83,20 @@ export class AdminListComponent implements OnInit {
     this.showPasswords[id] = !this.showPasswords[id];
   }
 
+  sortBy(property: string, direction: 'asc' | 'desc') {
+    this.sortedData = [...this.admins].sort((a, b) => {
+      const valueA = a[property];
+      const valueB = b[property];
+
+      if (valueA < valueB) return direction === 'asc' ? -1 : 1;
+      if (valueA > valueB) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
   updateAdmin(admin: any) {
     const dialogRef = this.dialog.open(AdminEditDialogComponent, {
       width: '400px',
@@ -80,24 +105,37 @@ export class AdminListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const index = this.admins.findIndex((a) => a.id === admin.id);
-        if (index !== -1) {
-          this.admins[index] = { ...this.admins[index], ...result };
-        }
+        this.loadAdmins();
       }
-      this.reloadComponent()
     });
   }
-  reloadComponent() {
-    this.router.navigateByUrl('admin-list', {skipLocationChange: true}).then(() => {
-      this.router.navigate([this.router.url]).then(r => this.variable.setUser('usuarios')); // Recarga la ruta actual
-    });
-  }
-  deleteAdmin(admin: any) {
-    console.log(`Eliminar admin con correo: ${admin.email}`);
 
+  deleteAdmin(admin: any) {
     this.authService.deleteAdmin(admin).subscribe(() => {
       this.admins = this.admins.filter((a) => a.email !== admin.email);
+      this.loadAdmins();
     });
+  }
+
+  // Métodos de paginación
+  updatePagination() {
+    this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.sortedData.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
   }
 }

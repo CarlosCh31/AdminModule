@@ -1,72 +1,122 @@
-<div class="admin-program-header">
-  <h1>Administrar Subprogramas</h1>
+<div class="container-all">
+  <div class="header-container">
+    <h2 class="table-title">
+      <mat-icon style="vertical-align: middle; margin-right: 8px;">sports_soccer</mat-icon>
+      Administrar Subprogramas
+    </h2>
 
-  <div class="filters">
-    <label for="subProgramSelect">Subprograma:</label>
-    <select id="subProgramSelect" [(ngModel)]="selectedSubProgram" (change)="filterBySubProgram()">
-      <option value="">Todos</option>
-      <option value="Atletas Jóvenes">Atletas Jóvenes (0-8 años)</option>
-      <option value="Iniciación Deportiva">Iniciación Deportiva (8-14 años)</option>
-    </select>
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="subProgramSelect">Subprograma:</label>
+        <mat-form-field appearance="outline">
+          <mat-select id="subProgramSelect" [(ngModel)]="selectedSubProgram" (selectionChange)="filterBySubProgram()">
+            <mat-option value="">Todos</mat-option>
+            <mat-option value="Atletas Jóvenes">Atletas Jóvenes (0-8 años)</mat-option>
+            <mat-option value="Iniciación Deportiva">Iniciación Deportiva (8-14 años)</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
+      <button mat-stroked-button color="primary" [matMenuTriggerFor]="sortMenu" class="sort-button">
+        <mat-icon>sort</mat-icon>
+        Ordenar
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #sortMenu="matMenu" class="sort-menu">
+        <button mat-menu-item (click)="sortByName('asc')">
+          <mat-icon>sort_by_alpha</mat-icon>
+          <span>Nombre (A-Z)</span>
+        </button>
+        <button mat-menu-item (click)="sortByName('desc')">
+          <mat-icon>sort_by_alpha</mat-icon>
+          <span>Nombre (Z-A)</span>
+        </button>
+        <button mat-menu-item (click)="sortByAge('desc')">
+          <mat-icon>arrow_downward</mat-icon>
+          <span>Edad (Mayor a menor)</span>
+        </button>
+        <button mat-menu-item (click)="sortByAge('asc')">
+          <mat-icon>arrow_upward</mat-icon>
+          <span>Edad (Menor a mayor)</span>
+        </button>
+      </mat-menu>
 
-    <button mat-icon-button color="primary" (click)="openAddDialog()">
-      <mat-icon>person_add</mat-icon>
-    </button>
+      <button mat-raised-button color="primary" (click)="addAthlete()" class="add-button">
+        <mat-icon>person_add</mat-icon>
+        Agregar
+      </button>
+    </div>
+  </div>
 
+  <div class="table-container">
+    <table mat-table [dataSource]="paginatedData" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="id" class="mat-column-id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let athlete"> {{ athlete.id }} </td>
+      </ng-container>
 
+      <ng-container matColumnDef="name" class="mat-column-name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+        <td mat-cell *matCellDef="let athlete"> {{ athlete.name || 'N/A' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="age" class="mat-column-age">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Edad </th>
+        <td mat-cell *matCellDef="let athlete"> {{ athlete.age }} años </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phone_number" class="mat-column-phone">
+        <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+        <td mat-cell *matCellDef="let athlete"> {{ athlete.phone_number || 'N/A' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="laterality" class="mat-column-laterality">
+        <th mat-header-cell *matHeaderCellDef> Lateralidad </th>
+        <td mat-cell *matCellDef="let athlete"> {{ athlete.laterality || 'N/A' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="disability_type" class="mat-column-disability">
+        <th mat-header-cell *matHeaderCellDef> Discapacidad </th>
+        <td mat-cell *matCellDef="let athlete"> {{ athlete.disability_type || 'N/A' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" class="mat-column-actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let athlete">
+          <button mat-icon-button color="accent" (click)="editAthlete(athlete)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteAthlete(athlete.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="openContactDialog(athlete)">
+            <mat-icon>contact_mail</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="paginator-container">
+      <button mat-stroked-button
+              [disabled]="currentPage === 1"
+              (click)="previousPage()">
+        <mat-icon>chevron_left</mat-icon>
+        Anterior
+      </button>
+
+      <div class="page-indicator">
+        Página {{currentPage}} de {{totalPages}}
+      </div>
+
+      <button mat-stroked-button
+              [disabled]="currentPage === totalPages"
+              (click)="nextPage()">
+        Siguiente
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
-
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef >ID</th>
-    <td mat-cell *matCellDef="let athlete">{{ athlete.id }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef >Nombre</th>
-    <td mat-cell *matCellDef="let athlete">{{ athlete.name }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="age">
-    <th mat-header-cell *matHeaderCellDef >Edad</th>
-    <td mat-cell *matCellDef="let athlete">{{ athlete.age }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="phone_number">
-    <th mat-header-cell *matHeaderCellDef>Teléfono</th>
-    <td mat-cell *matCellDef="let athlete">{{ athlete.phone_number }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="laterality">
-    <th mat-header-cell *matHeaderCellDef>Lateralidad</th>
-    <td mat-cell *matCellDef="let athlete">{{ athlete.laterality }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="disability_type">
-    <th mat-header-cell *matHeaderCellDef>Discapacidad</th>
-    <td mat-cell *matCellDef="let athlete">{{ athlete.disability_type }}</td>
-  </ng-container>
-
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-    <td mat-cell *matCellDef="let athlete">
-      <button mat-icon-button color="accent" (click)="editAthlete(athlete)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button color="warn" (click)="deleteAthlete(athlete.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" (click)="openContactDialog(athlete)">
-        <mat-icon>contact_mail</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-</table>

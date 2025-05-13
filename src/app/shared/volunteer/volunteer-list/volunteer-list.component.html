@@ -1,29 +1,94 @@
 <div class="container-all">
-  <table mat-table [dataSource]="volunteers" class="mat-elevation-z8">
+  <div class="header-container">
+    <h2 class="table-title">
+      <mat-icon style="vertical-align: middle; margin-right: 8px;">volunteer_activism</mat-icon>
+      Lista de Voluntarios
+    </h2>
 
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let v"> {{v.id}} </td>
-    </ng-container>
+    <button mat-stroked-button color="primary" [matMenuTriggerFor]="sortMenu" class="sort-button">
+      <mat-icon>sort</mat-icon>
+      Ordenar
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #sortMenu="matMenu" class="sort-menu">
+      <button mat-menu-item (click)="sortByName('asc')">
+        <mat-icon>sort_by_alpha</mat-icon>
+        <span>Nombre (A-Z)</span>
+      </button>
+      <button mat-menu-item (click)="sortByName('desc')">
+        <mat-icon>sort_by_alpha</mat-icon>
+        <span>Nombre (Z-A)</span>
+      </button>
+    </mat-menu>
+  </div>
 
-    <ng-container matColumnDef="sportExperience">
-      <th mat-header-cell *matHeaderCellDef> Experiencia en deportes </th>
-      <td mat-cell *matCellDef="let v"> {{v.sportExperience}} </td>
-    </ng-container>
+  <div class="table-container">
+    <table mat-table [dataSource]="paginatedData" class="mat-elevation-z8">
+      <ng-container matColumnDef="id" class="mat-column-id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let volunteer"> {{ volunteer.id }} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Acciones </th>
-      <td mat-cell *matCellDef="let v">
-        <button mat-icon-button color="primary" (click)="editVolunteer(v)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="deleteVolunteer(v)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="name" class="mat-column-name">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let volunteer"> {{ volunteer.name || 'N/A' }} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <ng-container matColumnDef="email" class="mat-column-email">
+        <th mat-header-cell *matHeaderCellDef> Correo </th>
+        <td mat-cell *matCellDef="let volunteer">
+          {{ volunteer.email || 'N/A' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phone_number" class="mat-column-phone">
+        <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+        <td mat-cell *matCellDef="let volunteer">
+          {{ volunteer.phone_number || 'N/A' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sportExperience" class="mat-column-experience">
+        <th mat-header-cell *matHeaderCellDef> Experiencia en Deportes </th>
+        <td mat-cell *matCellDef="let volunteer">
+          {{ volunteer.sportExperience || 'N/A' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" class="mat-column-actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let volunteer">
+          <button mat-icon-button color="primary" (click)="editVolunteer(volunteer)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteVolunteer(volunteer)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="paginator-container">
+      <button mat-stroked-button
+              [disabled]="currentPage === 1"
+              (click)="previousPage()">
+        <mat-icon>chevron_left</mat-icon>
+        Anterior
+      </button>
+
+      <div class="page-indicator">
+        Página {{currentPage}} de {{totalPages}}
+      </div>
+
+      <button mat-stroked-button
+              [disabled]="currentPage === totalPages"
+              (click)="nextPage()">
+        Siguiente
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>

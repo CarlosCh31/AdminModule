@@ -1,52 +1,66 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AthleteService } from '../../../core/athlete.service';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-
 import {
-  MatCell, MatCellDef,
+  MatCell,
+  MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable,
-  MatTableDataSource
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
 } from '@angular/material/table';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule, MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { MatSort } from '@angular/material/sort';
-import { ModalContactComponent } from '../modal-contact/modal-contact.component';
-import { ModalAddAthleteComponent } from '../modal-add-athlete/modal-add-athlete.component';
+import {MatDialog} from '@angular/material/dialog';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import {ModalContactComponent} from '../modal-contact/modal-contact.component';
+import {AdminEditDialogComponent} from '../../admin/admin-edit-dialog/admin-edit-dialog.component';
+import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-edit-dialog.component';
+import {FormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatMenuModule} from '@angular/material/menu'; // Ajusta tu path real
 
 @Component({
   selector: 'app-admin-program',
   standalone: true,
   templateUrl: './programas.component.html',
   styleUrls: ['./programas.component.scss'],
+  standalone: true,
   imports: [
-    FormsModule,
-    CommonModule,
     MatTable,
     MatColumnDef,
     MatHeaderCell,
-    MatHeaderCellDef,
     MatCell,
     MatCellDef,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
-    MatSort,
-    MatButtonModule,
-    MatIconButton,
+    MatHeaderCellDef,
     MatIcon,
-    MatDialogModule
-  ]
+    MatHeaderRow,
+    MatRow,
+    MatIconButton,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatSortModule
+  ],
 })
 export class ProgramasComponent implements OnInit {
 
   private athleteService = inject(AthleteService);
   private dialog = inject(MatDialog);
+
+  // Configuración de paginación
+  readonly itemsPerPage = 6;
+  currentPage = 1;
+  totalPages = 1;
+  paginatedData: any[] = [];
+
   displayedColumns: string[] = [
     'id',
     'name',
@@ -54,15 +68,16 @@ export class ProgramasComponent implements OnInit {
     'phone_number',
     'laterality',
     'disability_type',
+    'state',
     'actions'
   ];
 
-  dataSource = new MatTableDataSource<any>([]);
   allAthletes: any[] = [];
+  sortedData: any[] = [];
   selectedSubProgram: string = '';
+  selectedState: string = '';
+  ModalContactComponent= ModalContactComponent;
 
-  ModalContactComponent = ModalContactComponent;
-  ModalAddAthleteComponent = ModalAddAthleteComponent;
 
   ngOnInit() {
     this.loadAthletes();
@@ -76,7 +91,8 @@ export class ProgramasComponent implements OnInit {
           name: athlete.name,
           age: this.calculateAge(athlete.birthdate || athlete.person?.birth_date)
         }));
-        this.dataSource.data = [...this.allAthletes];
+        this.sortedData = [...this.allAthletes];
+        this.updatePagination();
       },
       error: (err) => console.error('Error cargando atletas:', err),
     });
@@ -97,10 +113,36 @@ export class ProgramasComponent implements OnInit {
 
   filterBySubProgram() {
     if (this.selectedSubProgram) {
-      this.dataSource.data = this.allAthletes.filter(a => a.subProgram === this.selectedSubProgram);
+      this.sortedData = this.allAthletes.filter(a => a.subProgram === this.selectedSubProgram);
     } else {
-      this.dataSource.data = [...this.allAthletes];
+      this.sortedData = [...this.allAthletes];
     }
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortByName(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.sortedData].sort((a, b) => {
+      const nameA = (a.name || '').toString().toLowerCase();
+      const nameB = (b.name || '').toString().toLowerCase();
+
+      if (nameA < nameB) return direction === 'asc' ? -1 : 1;
+      if (nameA > nameB) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortByAge(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.sortedData].sort((a, b) => {
+      if (direction === 'asc') {
+        return a.age - b.age;
+      }
+      return b.age - a.age;
+    });
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   openContactDialog(athlete: any) {
@@ -125,17 +167,54 @@ export class ProgramasComponent implements OnInit {
   }
 
   editAthlete(athlete: any) {
-    console.log('Editar atleta', athlete);
-    // Aquí podrías abrir otro modal de edición
+    const dialogRef = this.dialog.open(ProgramasEditDialogComponent, {
+      width: '400px',
+      data: { ...athlete },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadAthletes();
+      if (result) {
+        const index = this.allAthletes.findIndex((a) => a.id === athlete.id);
+        if (index !== -1) {
+          this.allAthletes[index] = { ...this.allAthletes[index], ...result };
+        }
+      }
+    });
+  }
+
+  addAthlete(){
+    console.log("Temp");
   }
 
   deleteAthlete(id: number) {
     this.athleteService.delete(id).subscribe({
       next: () => {
         this.allAthletes = this.allAthletes.filter((athlete) => athlete.id !== id);
-        this.filterBySubProgram();
       },
       error: (err) => console.error('Error eliminando atleta:', err),
     });
+  }
+
+  // Métodos de paginación
+  updatePagination() {
+    this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.sortedData.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
   }
 }

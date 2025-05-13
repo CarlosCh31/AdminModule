@@ -1,78 +1,100 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {ActivityService} from '../../../core/activity.service';
-import {VolunteerService} from '../../../core/volunteer.service';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { VolunteerService } from '../../../core/volunteer.service';
+import { VolunteerEditDialogComponent } from '../volunteer-edit-dialog/volunteer-edit-dialog.component';
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable,
-  MatTableDataSource
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
 } from '@angular/material/table';
-import {Observable} from 'rxjs';
-import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
-import {AdminEditDialogComponent} from '../../../modules/admin/admin-edit-dialog/admin-edit-dialog.component';
-import {VolunteerEditDialogComponent} from '../volunteer-edit-dialog/volunteer-edit-dialog.component';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-volunteer-list',
   standalone: true,
   imports: [
     MatTable,
-    MatColumnDef,
     MatHeaderCell,
+    MatHeaderCellDef,
     MatCell,
     MatCellDef,
-    MatHeaderCellDef,
-    MatIcon,
-    MatHeaderRow,
-    MatRow,
+    MatColumnDef,
     MatIconButton,
+    MatIcon,
+    MatRow,
+    MatHeaderRow,
     MatHeaderRowDef,
-    MatRowDef
+    MatRowDef,
+    MatMenuModule
   ],
   templateUrl: './volunteer-list.component.html',
-  styleUrl: './volunteer-list.component.scss'
+  styleUrl: './volunteer-list.component.scss',
 })
 export class VolunteerListComponent implements OnInit {
   private volunteerService = inject(VolunteerService);
   private dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['id', 'sportExperience', 'actions'];
+  // Configuración de paginación
+  readonly itemsPerPage = 6;
+  currentPage = 1;
+  totalPages = 1;
+  paginatedData: any[] = [];
+
+  displayedColumns: string[] = ['id', 'name', 'email', 'phone_number', 'sportExperience', 'actions'];
   volunteers: any[] = [];
+  sortedData: any[] = [];
 
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadVolunteers();
   }
 
-  private loadVolunteers() {
-    const activitiesObservable: Observable<any[]> = this.volunteerService.getAll();
-    activitiesObservable.subscribe({
-      next: (data) => {
+  loadVolunteers() {
+    this.volunteerService.getAll().subscribe({
+      next: (data: any[]) => {
         this.volunteers = data;
-        console.log('Contenido del observable:', data);
+        this.sortedData = [...this.volunteers];
+        this.updatePagination();
       },
       error: (err) => {
-        console.error('Error cargando actividades:', err);
+        console.error('Error cargando voluntarios:', err);
       },
     });
   }
 
-  deleteVolunteer(volunteer: any) {
-    this.volunteerService.delete(volunteer).subscribe({
-      next: () => {
-        console.log('Eliminado');
-        this.loadVolunteers();
-      },
-      error: (err: any) => {
-        console.error('Error al eliminar:', err);
-        this.loadVolunteers();
-      }
+  sortByName(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.volunteers].sort((a, b) => {
+      const nameA = (a.name || '').toString().toLowerCase();
+      const nameB = (b.name || '').toString().toLowerCase();
+
+      if (nameA < nameB) return direction === 'asc' ? -1 : 1;
+      if (nameA > nameB) return direction === 'asc' ? 1 : -1;
+      return 0;
     });
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortByExperience(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.volunteers].sort((a, b) => {
+      const expA = a.sportExperience || '';
+      const expB = b.sportExperience || '';
+
+      if (direction === 'asc') {
+        return expA.localeCompare(expB);
+      }
+      return expB.localeCompare(expA);
+    });
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   editVolunteer(volunteer: any) {
@@ -83,13 +105,42 @@ export class VolunteerListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadVolunteers()
-        const index = this.volunteers.findIndex((a) => a.id === volunteer.id);
-        if (index !== -1) {
-          this.volunteers[index] = { ...this.volunteers[index], ...result };
-        }
+        this.loadVolunteers();
       }
     });
+  }
 
+  deleteVolunteer(volunteer: any) {
+    this.volunteerService.delete(volunteer).subscribe({
+      next: () => {
+        this.volunteers = this.volunteers.filter((v) => v.id !== volunteer.id);
+        this.loadVolunteers();
+      },
+      error: (err) => {
+        console.error('Error eliminando voluntario:', err);
+      },
+    });
+  }
+
+  // Métodos de paginación
+  updatePagination() {
+    this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.sortedData.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
   }
 }

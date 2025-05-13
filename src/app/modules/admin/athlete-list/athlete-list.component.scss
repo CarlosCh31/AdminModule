@@ -42,21 +42,30 @@
   }
 }
 
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+.table-container {
+  overflow-x: auto;
   background-color: white;
   border-radius: 8px;
-  overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; /* Cambiado de 'fixed' a 'auto' para nombres largos */
+
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    white-space: normal; /* Cambiado de 'nowrap' para permitir múltiples líneas */
+    word-wrap: break-word;
+  }
 
   th {
     background-color: #fc4048;
     color: white;
     font-weight: 500;
-    padding: 16px;
-    text-align: left;
     position: sticky;
     top: 0;
 
@@ -70,8 +79,8 @@ table {
   }
 
   td {
-    padding: 12px 16px;
     border-bottom: 1px solid #e0e0e0;
+    vertical-align: top; /* Alinea el contenido en la parte superior */
   }
 
   tr:last-child td {
@@ -83,11 +92,52 @@ table {
   }
 }
 
-.mat-elevation-z8 {
-  box-shadow: none;
+/* Definición de anchos para cada columna */
+.mat-column-id {
+  width: 150px;
+  min-width: 150px;
 }
 
-/* Estilos para los botones de acción */
+.mat-column-name {
+  width: 300px; /* Aumentado para nombres largos */
+  min-width: 250px;
+  max-width: 300px;
+  white-space: normal; /* Permite múltiples líneas */
+}
+
+.mat-column-age {
+  width: 100px;
+  min-width: 100px;
+}
+
+.mat-column-phone {
+  width: 150px;
+  min-width: 150px;
+}
+
+.mat-column-laterality {
+  width: 120px;
+  min-width: 120px;
+}
+
+.mat-column-disability {
+  width: 180px;
+  min-width: 180px;
+  white-space: normal; /* Permite múltiples líneas */
+}
+
+.mat-column-actions {
+  width: 120px;
+  min-width: 120px;
+  text-align: center !important;
+}
+
+/* Estilos para celdas con contenido largo */
+.long-text-cell {
+  white-space: normal;
+  word-break: break-word;
+}
+
 .mat-icon-button {
   transition: all 0.2s ease;
 
@@ -104,7 +154,6 @@ table {
   }
 }
 
-/* Estilos para el menú de ordenamiento */
 .mat-menu-panel {
   border-radius: 8px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
@@ -126,4 +175,41 @@ table {
     background-color: #e3f2fd;
     color: #1e88e5;
   }
+}
+
+.paginator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover:not([disabled]) {
+      background-color: #e3f2fd;
+      transform: translateY(-2px);
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
 }
