@@ -1,0 +1,29 @@
+<div class="profile-container" *ngIf="!loading">
+  <h2>¡Hola, Coordinador!</h2>
+  <p class="subtitle">Actualiza tu contraseña de manera segura.</p>
+
+  <form [formGroup]="profileForm" (ngSubmit)="save()">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label><mat-icon>lock</mat-icon> Nueva Contraseña</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="Escribe tu nueva contraseña">
+      <mat-error *ngIf="profileForm.get('password')?.hasError('required')">
+        La contraseña es requerida
+      </mat-error>
+      <mat-error *ngIf="profileForm.get('password')?.hasError('minlength')">
+        La contraseña debe tener mínimo 6 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid || !userData">
+        <mat-icon>save</mat-icon> Guardar Cambios
+      </button>
+
+      <button mat-stroked-button color="warn" type="button" (click)="cancel()">
+        <mat-icon>cancel</mat-icon> Cancelar
+      </button>
+    </div>
+
+  </form>
+</div>

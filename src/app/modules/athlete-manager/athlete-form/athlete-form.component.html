@@ -1,0 +1,120 @@
+<div class="form-container">
+<h2>Agregar Nuevo Atleta</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Subprograma</mat-label>
+    <mat-select formControlName="sub_program">
+      <mat-option value="Atletas Jóvenes">Atletas Jóvenes</mat-option>
+      <mat-option value="Iniciación Deportiva">Iniciación Deportiva</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Tipo de Persona</mat-label>
+    <mat-select formControlName="tipo">
+      <mat-option value="Fisica">Física</mat-option>
+      <mat-option value="Juridica">Jurídica</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cédula</mat-label>
+    <input matInput formControlName="id" mask="0-0000-0000" placeholder="x-xxxx-xxxx">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Fecha de nacimiento</mat-label>
+    <input matInput type="date" formControlName="birthdate">
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nacionalidad</mat-label>
+    <mat-select formControlName="citizenship">
+      <mat-option value="Nacional">Nacional</mat-option>
+      <mat-option value="Extranjero">Extranjero</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Correo</mat-label>
+    <input matInput formControlName="email" type="email">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Teléfono</mat-label>
+    <input
+      matInput
+      formControlName="phone_number"
+      placeholder="8888-8888"
+      mask="0000-0000"
+      prefix="+506 "
+      [dropSpecialCharacters]="false"
+      type="text"
+    >
+  </mat-form-field>
+
+
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Provincia</mat-label>
+    <mat-select formControlName="province_id" (selectionChange)="onProvinceChange($event)">
+      <mat-option *ngFor="let p of provinces" [value]="p.id">{{ p.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <!-- Cantón -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cantón</mat-label>
+    <mat-select formControlName="canton_id" (selectionChange)="onCantonChange()">
+      <mat-option *ngFor="let c of cantonsDisponibles" [value]="c.id">{{ c.name }}</mat-option>
+      <mat-option *ngIf="cantonsDisponibles.length === 0" disabled>No hay cantones disponibles</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+
+
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Lateralidad</mat-label>
+    <mat-select formControlName="laterality">
+      <mat-option value="Derecha">Derecha</mat-option>
+      <mat-option value="Izquierda">Izquierda</mat-option>
+      <mat-option value="Ambidextro">Ambidextro</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Tipo de Discapacidad</mat-label>
+    <input matInput formControlName="disability_type">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Peso (kg)</mat-label>
+    <input matInput type="number" formControlName="weight">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Altura (cm)</mat-label>
+    <input matInput type="number" formControlName="height">
+  </mat-form-field>
+
+
+
+  <div class="modal-actions">
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+    <button mat-button (click)="cancel()" type="button">Cancelar</button>
+  </div>
+
+</form>
+</div>

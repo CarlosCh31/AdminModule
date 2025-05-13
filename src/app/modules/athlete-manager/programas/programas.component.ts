@@ -22,13 +22,14 @@ import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-e
 import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatMenuModule} from '@angular/material/menu'; // Ajusta tu path real
+import {MatMenuModule} from '@angular/material/menu';
+import {ModalAddAthleteComponent} from '../modal-add-athlete/modal-add-athlete.component'; // Ajusta tu path real
 
 @Component({
   selector: 'app-admin-program',
+  standalone: true,
   templateUrl: './programas.component.html',
   styleUrls: ['./programas.component.scss'],
-  standalone: true,
   imports: [
     MatTable,
     MatColumnDef,
@@ -50,6 +51,7 @@ import {MatMenuModule} from '@angular/material/menu'; // Ajusta tu path real
   ],
 })
 export class ProgramasComponent implements OnInit {
+
   private athleteService = inject(AthleteService);
   private dialog = inject(MatDialog);
 
@@ -75,6 +77,7 @@ export class ProgramasComponent implements OnInit {
   selectedSubProgram: string = '';
   selectedState: string = '';
   ModalContactComponent= ModalContactComponent;
+  ModalAddAthleteComponent = ModalAddAthleteComponent;
 
 
   ngOnInit() {
@@ -147,6 +150,20 @@ export class ProgramasComponent implements OnInit {
     this.dialog.open(this.ModalContactComponent, {
       width: '400px',
       data: { athlete }
+    });
+  }
+
+  openAddDialog() {
+    console.log('Abriendo modal de agregar atleta');
+    const dialogRef = this.dialog.open(this.ModalAddAthleteComponent, {
+      width: '1000px'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Nuevo atleta:', result);
+      }
+
     });
   }
 

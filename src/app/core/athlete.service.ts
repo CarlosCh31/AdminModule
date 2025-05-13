@@ -32,6 +32,9 @@ export class AthleteService {
         }));
   }
 
+  saveAthlete(athleteData: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}`, athleteData);
+  }
   updateManager(data: any) {
     return this.httpClient.put(`${this.baseUrl}/updateManager`, data)
       .pipe(tap((result) => {
