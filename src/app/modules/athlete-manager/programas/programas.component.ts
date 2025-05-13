@@ -22,14 +22,14 @@ import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-e
 import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatMenuModule} from '@angular/material/menu'; // Ajusta tu path real
+import {MatMenuModule} from '@angular/material/menu';
+import {ModalAddAthleteComponent} from '../modal-add-athlete/modal-add-athlete.component'; // Ajusta tu path real
 
 @Component({
   selector: 'app-admin-program',
   standalone: true,
   templateUrl: './programas.component.html',
   styleUrls: ['./programas.component.scss'],
-  standalone: true,
   imports: [
     MatTable,
     MatColumnDef,
@@ -77,6 +77,7 @@ export class ProgramasComponent implements OnInit {
   selectedSubProgram: string = '';
   selectedState: string = '';
   ModalContactComponent= ModalContactComponent;
+  ModalAddAthleteComponent = ModalAddAthleteComponent;
 
 
   ngOnInit() {
