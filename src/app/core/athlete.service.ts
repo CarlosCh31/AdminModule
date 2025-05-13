@@ -31,4 +31,11 @@ export class AthleteService {
           console.log(`Atleta con ID ${id} eliminado`);
         }));
   }
+
+  updateManager(data: any) {
+    return this.httpClient.put(`${this.baseUrl}/updateManager`, data)
+      .pipe(tap((result) => {
+        console.log('Atleta actualizado:', result);
+      }));
+  }
 }

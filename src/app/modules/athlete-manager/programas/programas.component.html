@@ -3,10 +3,18 @@
 
   <div class="filters">
     <label for="subProgramSelect">Subprograma:</label>
-    <select id="subProgramSelect" [(ngModel)]="selectedSubProgram" (change)="filterBySubProgram()">
+    <select id="subProgramSelect" [(ngModel)]="selectedSubProgram" (change)="filter()">
       <option value="">Todos</option>
       <option value="Atletas Jóvenes">Atletas Jóvenes (0-8 años)</option>
       <option value="Iniciación Deportiva">Iniciación Deportiva (8-14 años)</option>
+    </select>
+
+    <label for="stateSelect">Estado:</label>
+    <select id="stateSelect" [(ngModel)]="selectedState" (change)="filter()">
+      <option value="">Todos</option>
+      <option value="Activo">Activo</option>
+      <option value="Inactivo">Inactivo</option>
+      <option value="En espera">En espera</option>
     </select>
 
     <button mat-icon-button color="primary" (click)="0">
@@ -45,6 +53,11 @@
   <ng-container matColumnDef="disability_type">
     <th mat-header-cell *matHeaderCellDef>Discapacidad</th>
     <td mat-cell *matCellDef="let athlete">{{ athlete.disability_type }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef>Estado</th>
+    <td mat-cell *matCellDef="let athlete">{{ athlete.state }}</td>
   </ng-container>
 
 

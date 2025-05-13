@@ -11,7 +11,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {HttpClient} from '@angular/common/http';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {AthleteService} from '../../../core/athlete.service';
-import {NgIf} from '@angular/common';
+import {CommonModule, NgIf} from '@angular/common';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 
@@ -25,13 +25,14 @@ import {MatButton} from '@angular/material/button';
     MatSelect,
     MatOption,
     NgIf,
-    MatError,
     MatLabel,
     MatInput,
     MatDialogActions,
     MatButton,
     MatDialogTitle,
-    MatDialogContent
+    MatDialogContent,
+    CommonModule,
+    MatError
   ],
   styleUrl: './athlete-edit-dialog.component.scss'
 })

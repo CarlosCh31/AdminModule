@@ -14,12 +14,15 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatSort} from '@angular/material/sort';
-import {ModalContactComponent} from '../modal-contact/modal-contact.component'; // Ajusta tu path real
+import {ModalContactComponent} from '../modal-contact/modal-contact.component';
+import {AdminEditDialogComponent} from '../../admin/admin-edit-dialog/admin-edit-dialog.component';
+import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-edit-dialog.component'; // Ajusta tu path real
 
 @Component({
   selector: 'app-admin-program',
   templateUrl: './programas.component.html',
   styleUrls: ['./programas.component.scss'],
+  standalone: true,
   imports: [
     FormsModule,
     MatIconButton,
@@ -48,12 +51,14 @@ export class ProgramasComponent implements OnInit {
     'phone_number',
     'laterality',
     'disability_type',
+    'state',
     'actions'
   ];
 
   dataSource = new MatTableDataSource<any>([]);
   allAthletes: any[] = [];
   selectedSubProgram: string = '';
+  selectedState: string = '';
    ModalContactComponent= ModalContactComponent;
 
   ngOnInit() {
@@ -87,10 +92,20 @@ export class ProgramasComponent implements OnInit {
     return age;
   }
 
-  filterBySubProgram() {
-    if (this.selectedSubProgram) {
+  filter() {
+    if (this.selectedSubProgram && this.selectedState) {
+      // Filtrar por subProgram y state
+      this.dataSource.data = this.allAthletes.filter(a =>
+        a.subProgram === this.selectedSubProgram && a.state === this.selectedState
+      );
+    } else if (this.selectedSubProgram) {
+      // Filtrar solo por subProgram
       this.dataSource.data = this.allAthletes.filter(a => a.subProgram === this.selectedSubProgram);
+    } else if (this.selectedState) {
+      // Filtrar solo por state
+      this.dataSource.data = this.allAthletes.filter(a => a.state === this.selectedState);
     } else {
+      // No se seleccionó ningún filtro, mostrar todos
       this.dataSource.data = [...this.allAthletes];
     }
   }
@@ -103,15 +118,27 @@ export class ProgramasComponent implements OnInit {
   }
 
   editAthlete(athlete: any) {
-    console.log('Editar atleta', athlete);
-    // Aquí podrías abrir tu AthleteEditDialogComponent
+    const dialogRef = this.dialog.open(ProgramasEditDialogComponent, {
+      width: '400px',
+      data: { ...athlete },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadAthletes();
+      if (result) {
+        const index = this.allAthletes.findIndex((a) => a.id === athlete.id);
+        if (index !== -1) {
+          this.allAthletes[index] = { ...this.allAthletes[index], ...result };
+        }
+      }
+    });
   }
 
   deleteAthlete(id: number) {
     this.athleteService.delete(id).subscribe({
       next: () => {
         this.allAthletes = this.allAthletes.filter((athlete) => athlete.id !== id);
-        this.filterBySubProgram();
+        this.filter();
       },
       error: (err) => console.error('Error eliminando atleta:', err),
     });
