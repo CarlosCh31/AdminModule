@@ -1,14 +1,17 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AthleteService } from '../../../core/athlete.service';
-import {FormsModule} from '@angular/forms';
-import {NgForOf} from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import {
-  MatCell, MatCellDef,
+  MatCell,
+  MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable,
-  MatTableDataSource
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
 } from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconButton} from '@angular/material/button';
@@ -24,25 +27,36 @@ import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-e
   styleUrls: ['./programas.component.scss'],
   standalone: true,
   imports: [
-    FormsModule,
-    MatIconButton,
-    MatIcon,
     MatTable,
     MatColumnDef,
     MatHeaderCell,
-    MatSort,
-    MatHeaderCellDef,
     MatCell,
     MatCellDef,
+    MatHeaderCellDef,
+    MatIcon,
     MatHeaderRow,
-    MatHeaderRowDef,
     MatRow,
-    MatRowDef
-  ]
+    MatIconButton,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatSortModule
+  ],
+  templateUrl: './programas.component.html',
+  styleUrls: ['./programas.component.scss']
 })
 export class ProgramasComponent implements OnInit {
   private athleteService = inject(AthleteService);
   private dialog = inject(MatDialog);
+
+  // Configuración de paginación
+  readonly itemsPerPage = 6;
+  currentPage = 1;
+  totalPages = 1;
+  paginatedData: any[] = [];
 
   displayedColumns: string[] = [
     'id',
@@ -55,11 +69,12 @@ export class ProgramasComponent implements OnInit {
     'actions'
   ];
 
-  dataSource = new MatTableDataSource<any>([]);
   allAthletes: any[] = [];
+  sortedData: any[] = [];
   selectedSubProgram: string = '';
   selectedState: string = '';
-   ModalContactComponent= ModalContactComponent;
+  ModalContactComponent= ModalContactComponent;
+
 
   ngOnInit() {
     this.loadAthletes();
@@ -73,7 +88,8 @@ export class ProgramasComponent implements OnInit {
           name: athlete.name,
           age: this.calculateAge(athlete.birthdate || athlete.person?.birth_date)
         }));
-        this.dataSource.data = [...this.allAthletes];
+        this.sortedData = [...this.allAthletes];
+        this.updatePagination();
       },
       error: (err) => console.error('Error cargando atletas:', err),
     });
@@ -92,22 +108,38 @@ export class ProgramasComponent implements OnInit {
     return age;
   }
 
-  filter() {
-    if (this.selectedSubProgram && this.selectedState) {
-      // Filtrar por subProgram y state
-      this.dataSource.data = this.allAthletes.filter(a =>
-        a.subProgram === this.selectedSubProgram && a.state === this.selectedState
-      );
-    } else if (this.selectedSubProgram) {
-      // Filtrar solo por subProgram
-      this.dataSource.data = this.allAthletes.filter(a => a.subProgram === this.selectedSubProgram);
-    } else if (this.selectedState) {
-      // Filtrar solo por state
-      this.dataSource.data = this.allAthletes.filter(a => a.state === this.selectedState);
+  filterBySubProgram() {
+    if (this.selectedSubProgram) {
+      this.sortedData = this.allAthletes.filter(a => a.subProgram === this.selectedSubProgram);
     } else {
-      // No se seleccionó ningún filtro, mostrar todos
-      this.dataSource.data = [...this.allAthletes];
+      this.sortedData = [...this.allAthletes];
     }
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortByName(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.sortedData].sort((a, b) => {
+      const nameA = (a.name || '').toString().toLowerCase();
+      const nameB = (b.name || '').toString().toLowerCase();
+
+      if (nameA < nameB) return direction === 'asc' ? -1 : 1;
+      if (nameA > nameB) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortByAge(direction: 'asc' | 'desc') {
+    this.sortedData = [...this.sortedData].sort((a, b) => {
+      if (direction === 'asc') {
+        return a.age - b.age;
+      }
+      return b.age - a.age;
+    });
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   openContactDialog(athlete: any) {
@@ -142,5 +174,27 @@ export class ProgramasComponent implements OnInit {
       },
       error: (err) => console.error('Error eliminando atleta:', err),
     });
+  }
+
+  // Métodos de paginación
+  updatePagination() {
+    this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.sortedData.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
   }
 }
