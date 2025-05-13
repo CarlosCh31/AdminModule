@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AthleteService } from '../../../core/athlete.service';
-import { MatDialog } from '@angular/material/dialog';
 import {
   MatCell,
   MatCellDef,
@@ -16,10 +15,14 @@ import {
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-import {MatSort} from '@angular/material/sort';
+import {MatSort, MatSortModule} from '@angular/material/sort';
 import {ModalContactComponent} from '../modal-contact/modal-contact.component';
 import {AdminEditDialogComponent} from '../../admin/admin-edit-dialog/admin-edit-dialog.component';
-import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-edit-dialog.component'; // Ajusta tu path real
+import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-edit-dialog.component';
+import {FormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatMenuModule} from '@angular/material/menu'; // Ajusta tu path real
 
 @Component({
   selector: 'app-admin-program',
@@ -45,8 +48,6 @@ import {ProgramasEditDialogComponent} from '../programas-edit-dialog/programas-e
     FormsModule,
     MatSortModule
   ],
-  templateUrl: './programas.component.html',
-  styleUrls: ['./programas.component.scss']
 })
 export class ProgramasComponent implements OnInit {
   private athleteService = inject(AthleteService);
@@ -166,11 +167,14 @@ export class ProgramasComponent implements OnInit {
     });
   }
 
+  addAthlete(){
+    console.log("Temp");
+  }
+
   deleteAthlete(id: number) {
     this.athleteService.delete(id).subscribe({
       next: () => {
         this.allAthletes = this.allAthletes.filter((athlete) => athlete.id !== id);
-        this.filter();
       },
       error: (err) => console.error('Error eliminando atleta:', err),
     });
