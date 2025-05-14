@@ -23,7 +23,7 @@ export class AdminSidebarComponent {
   private userService = inject(UserService);
 
   menuItems = [
-    { label: 'Dashboard', icon: 'dashboard', route: 'dashboard' },
+    { label: 'Metricas', icon: 'dashboard', route: 'dashboard' },
     { label: 'Administrar Coordinadores', icon: 'group', route: 'usuarios' },
     { label: 'Crear nuevo usuario', icon: 'person_add', route: 'register' },
     { label: 'Lista de atletas', icon: 'sports', route: 'atletas' },

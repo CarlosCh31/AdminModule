@@ -90,7 +90,7 @@ export class ActivityRegisterComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', Validators.required],
       date: ['', Validators.required],
-      time: ['', Validators.required],
+      time: ['00:00', Validators.required],
       duration: ['', Validators.required],
       modality: ['', Validators.required],
       location: ['', Validators.required],

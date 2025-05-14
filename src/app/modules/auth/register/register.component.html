@@ -35,13 +35,6 @@
         </div>
 
         <div class="action-buttons">
-          <button
-            class="register-button"
-            type="submit"
-            [disabled]="registerForm.invalid || isLoading">
-            <span *ngIf="!isLoading">Registrar coordinador</span>
-            <span *ngIf="isLoading">Procesando...</span>
-          </button>
 
           <button
             class="back-button"
@@ -50,6 +43,15 @@
             <mat-icon>arrow_back</mat-icon>
             Volver
           </button>
+
+          <button
+            class="register-button"
+            type="submit"
+            [disabled]="registerForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Registrar coordinador</span>
+            <span *ngIf="isLoading">Procesando...</span>
+          </button>
+
         </div>
 
         <div *ngIf="formStatus"
