@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {AdminNavbarComponent} from '../navbar/navbar.component';
+import {AdminNavbarComponent} from '../../../shared/navbar/navbar.component';
 import {AdminSidebarComponent} from '../admin-sidebar/admin-sidebar.component';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {UserService} from '../../../core/user.service';

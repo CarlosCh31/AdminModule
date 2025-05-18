@@ -19,7 +19,7 @@ export class SideBarComponent {
   private userService = inject(UserService);
 
   sidebarOptions = [
-    { label: 'Dashboard', icon: 'dashboard', view: 'dashboard' },
+    { label: 'Métricas', icon: 'dashboard', view: 'dashboard' },
     { label: 'Iniciación Deportiva Integral', icon: 'sports_handball', view: 'Iniciacion' },
     { label: 'Voluntarios', icon: 'group', view: 'volunteer-list' },
     { label: 'Crear Nuevo Evento', icon: 'event', view: 'registerActivity' },

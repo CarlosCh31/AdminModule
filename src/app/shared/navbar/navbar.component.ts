@@ -7,8 +7,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/auth.service';
-import {UserService} from '../../../core/user.service';
+import { AuthService } from '../../core/auth.service';
+import {UserService} from '../../core/user.service';
 
 @Component({
   selector: 'app-admin-navbar',

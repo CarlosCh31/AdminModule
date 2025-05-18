@@ -68,7 +68,6 @@ export class ProgramasComponent implements OnInit {
     'phone_number',
     'laterality',
     'disability_type',
-    'state',
     'actions'
   ];
 
