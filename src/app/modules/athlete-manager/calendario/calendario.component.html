@@ -6,33 +6,73 @@
 </div>
 
 <div class="calendar-header">
-  <button (click)="changeView('week')" title="Vista Semanal">
-    <span class="material-icons">view_week</span>
-  </button>
-  <button (click)="changeView('month')" title="Vista Mensual">
-    <span class="material-icons">calendar_month</span>
-  </button>
+  <div class="view-options">
+    <button (click)="changeView('week')" title="Vista Semanal" [class.active]="currentView === 'week'">
+      <span class="material-icons">view_week</span>
+    </button>
+    <button (click)="changeView('month')" title="Vista Mensual" [class.active]="currentView === 'month'">
+      <span class="material-icons">calendar_month</span>
+    </button>
+  </div>
 
-  <button (click)="previous()" title="Anterior">←</button>
-  <button (click)="today()" title="Hoy">Hoy</button>
-  <button (click)="next()" title="Siguiente">→</button>
+  <div class="date-navigation">
+    <button (click)="previous()" class="nav-button" title="Mes anterior">
+      <span class="material-icons">chevron_left</span>
+    </button>
+
+    <div class="month-year-selector" (click)="toggleDatePicker()">
+      <span class="month-name">{{ getMonthName() }}</span>
+      <span class="year">{{ currentDate.getFullYear() }}</span>
+      <span class="material-icons dropdown-icon">arrow_drop_down</span>
+
+      <div class="date-picker" *ngIf="showDatePicker">
+        <div class="year-selector">
+          <button (click)="changeYear(-1)" class="year-nav">
+            <span class="material-icons">chevron_left</span>
+          </button>
+          <span class="current-year">{{ currentDate.getFullYear() }}</span>
+          <button (click)="changeYear(1)" class="year-nav">
+            <span class="material-icons">chevron_right</span>
+          </button>
+        </div>
+
+        <div class="month-grid">
+          <button *ngFor="let month of months"
+                  (click)="selectMonth(month.index)"
+                  [class.active]="month.index === currentDate.getMonth()">
+            {{ month.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="next()" class="nav-button" title="Mes siguiente">
+      <span class="material-icons">chevron_right</span>
+    </button>
+
+    <button (click)="today()" class="today-button" title="Ir a hoy">
+      Hoy
+    </button>
+  </div>
 
   <div class="spacer"></div>
 
-  <button (click)="openAddEventModal()" title="Agregar Evento">➕</button>
+  <button (click)="openAddEventModal()" class="add-event-button" title="Agregar Evento">
+    <span class="material-icons">add</span>
+    <span class="button-text">Nuevo Evento</span>
+  </button>
 
   <div class="modal-backdrop" *ngIf="showAddEventModal">
     <div class="modal">
-      <button class="close-button" (click)="closeAddEventModal()">✖️</button>
-
-      <!-- Aquí montas tu componente de agregar -->
+      <button class="close-button" (click)="closeAddEventModal()">
+        <span class="material-icons">close</span>
+      </button>
       <app-activity-register></app-activity-register>
     </div>
   </div>
 </div>
 
 <div class="calendar-body">
-
   <app-vista-mensual
     *ngIf="currentView === 'month'"
     [currentDate]="currentDate"
@@ -44,5 +84,5 @@
     [currentDate]="currentDate"
     [searchQuery]="searchQuery">
   </app-vista-semanal>
-
 </div>
+

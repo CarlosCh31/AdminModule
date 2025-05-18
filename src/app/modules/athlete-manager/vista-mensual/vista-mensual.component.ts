@@ -2,6 +2,12 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityDTO, ActivityService } from '../../../core/activity.service';
 
+interface DayInfo {
+  dayNumber: number;
+  activities: ActivityDTO[];
+  isCurrentMonth: boolean;
+}
+
 @Component({
   selector: 'app-vista-mensual',
   standalone: true,
@@ -10,13 +16,12 @@ import { ActivityDTO, ActivityService } from '../../../core/activity.service';
   styleUrls: ['./vista-mensual.component.scss']
 })
 export class VistaMensualComponent implements OnChanges {
-
   @Input() currentDate!: Date;
   @Input() searchQuery = '';
 
   allActivities: ActivityDTO[] = [];
-  daysOfMonth: { dayNumber: number, activities: ActivityDTO[] }[] = [];
-
+  daysOfMonth: DayInfo[] = [];
+  weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
   monthName = '';
 
   typeColorMap = new Map<string, string>();
@@ -31,53 +36,37 @@ export class VistaMensualComponent implements OnChanges {
       this.organizeActivities();
     });
   }
+
   organizeActivities() {
     const year = this.currentDate.getFullYear();
     const month = this.currentDate.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
 
     this.monthName = this.getMonthName(month) + ' ' + year;
-
-    const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 = Domingo, 1 = Lunes
-    const adjustedFirstDay = (firstDayOfMonth === 0) ? 6 : firstDayOfMonth - 1; // Para que lunes sea 0
-
     this.daysOfMonth = [];
 
-    // Insertar espacios vacíos al principio si no empieza en lunes
-    for (let i = 0; i < adjustedFirstDay; i++) {
-      this.daysOfMonth.push({ dayNumber: null as any, activities: [] });
-    }
-
-    // Insertar días del mes
+    // Días del mes actual
     for (let day = 1; day <= daysInMonth; day++) {
-      this.daysOfMonth.push({ dayNumber: day, activities: [] });
+      const dayActivities = this.allActivities.filter(activity => {
+        const activityDate = new Date(activity.date);
+        return activityDate.getDate() === day &&
+          activityDate.getMonth() === month &&
+          activityDate.getFullYear() === year &&
+          (this.searchQuery.trim() === '' ||
+            activity.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+            activity.type.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      });
+
+      this.daysOfMonth.push({
+        dayNumber: day,
+        activities: dayActivities,
+        isCurrentMonth: true
+      });
+
+      dayActivities.forEach(activity => this.assignColorToType(activity.type));
     }
-
-    // Insertar espacios al final para completar las filas
-    while (this.daysOfMonth.length % 7 !== 0) {
-      this.daysOfMonth.push({ dayNumber: null as any, activities: [] });
-    }
-
-    // Asignar actividades a días
-    this.allActivities.forEach(activity => {
-      const activityDate = new Date(activity.date);
-
-      if (activityDate.getFullYear() === year && activityDate.getMonth() === month) {
-        const dayNumber = activityDate.getDate();
-
-        const dayObj = this.daysOfMonth.find(d => d.dayNumber === dayNumber);
-
-        if (dayObj && (this.searchQuery.trim() === '' ||
-          activity.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          activity.type.toLowerCase().includes(this.searchQuery.toLowerCase()))) {
-
-          dayObj.activities.push(activity);
-          this.assignColorToType(activity.type);
-        }
-      }
-    });
   }
-
 
   getMonthName(month: number): string {
     const months = [
@@ -106,5 +95,11 @@ export class VistaMensualComponent implements OnChanges {
     return today.getDate() === dayNumber &&
       today.getMonth() === this.currentDate.getMonth() &&
       today.getFullYear() === this.currentDate.getFullYear();
+  }
+
+  getDayOffset(): number {
+    const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1).getDay();
+    // Ajuste para que Lunes sea 0
+    return firstDay === 0 ? 6 : firstDay - 1;
   }
 }

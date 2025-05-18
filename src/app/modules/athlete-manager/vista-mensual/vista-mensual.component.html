@@ -1,29 +1,42 @@
 <h1 class="month-title">{{ monthName }}</h1>
 
 <div class="month-board">
+  <!-- Fila de nombres de días -->
+  <div class="day-name" *ngFor="let day of weekDays">
+    {{ day }}
+  </div>
+
+  <!-- Espacios vacíos al inicio según el primer día del mes -->
+  <div class="empty-day" *ngFor="let i of [].constructor(getDayOffset())"></div>
+
+  <!-- Días del mes -->
   <div class="day-column"
        *ngFor="let day of daysOfMonth"
-       [ngClass]="{ 'today-column': isToday(day.dayNumber) }">
+       [ngClass]="{'today-column': isToday(day.dayNumber)}">
 
-    <h2 *ngIf="day.dayNumber !== null">{{ day.dayNumber }}</h2>
+    <div class="day-header">
+      <span class="day-number">{{ day.dayNumber }}</span>
+      <span class="material-icons" *ngIf="isToday(day.dayNumber)" style="font-size: 16px; color: #42a5f5;">circle</span>
+    </div>
 
-    <ng-container *ngIf="day.dayNumber !== null; else emptyDay">
+    <div class="activities-container">
       <div *ngFor="let activity of day.activities"
            class="activity-card"
-           [style.borderLeft]=" '5px solid ' + getTypeColor(activity.type) ">
+           [style.borderLeftColor]="getTypeColor(activity.type)">
 
         <div class="tag" [style.backgroundColor]="getTypeColor(activity.type)">
-          {{ activity.type }}
+          {{ activity.type | slice:0:3 }}
         </div>
 
         <h4>{{ activity.name }}</h4>
         <p>{{ activity.description }}</p>
-        <small>{{ activity.time }} | {{ activity.modality }} | {{ activity.location }}</small>
+        <small>{{ activity.time | slice:0:5 }} | {{ activity.modality }}</small>
       </div>
-    </ng-container>
 
-    <ng-template #emptyDay>
-      <!-- Celda vacía (sin número) -->
-    </ng-template>
+      <div *ngIf="day.activities.length === 0" class="no-activities">
+        Sin actividades
+      </div>
+    </div>
   </div>
+
 </div>
