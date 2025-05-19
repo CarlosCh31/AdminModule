@@ -9,7 +9,7 @@ import { Chart, registerables } from 'chart.js';
 
 
 
-Chart.register(...registerables); // Registro global de Chart.js
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',

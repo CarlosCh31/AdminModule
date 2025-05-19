@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelect, MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button'; // 🚨 AGREGAR ESTO
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-modal-add-athlete',

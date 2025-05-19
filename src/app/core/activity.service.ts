@@ -25,17 +25,15 @@ export interface ActivityDTO {
 })
 export class ActivityService {
   httpClient = inject(HttpClient);
-  baseUrl = 'http://localhost:8080/api/activity'; // Ajusta la URL según tu backend
+  baseUrl = 'http://localhost:8080/api/activity';
   workshopUrl: string = 'http://localhost:8080/api/workshops';
   talkForumUrl: string= 'http://localhost:8080/api/talk-forums';
   sportUrl: string= 'http://localhost:8080/api/sports';
 
-  // Obtener todas las actividades
   getAll(): Observable<ActivityDTO[]> {
     return this.httpClient.get<ActivityDTO[]>(`${this.baseUrl}/getAll`);
   }
 
-  // Registrar una nueva actividad
   register(data: any) {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
   }
@@ -51,7 +49,6 @@ export class ActivityService {
     return this.httpClient.post<{ message: string }>(`${this.talkForumUrl}/register`, data)
   }
 
-  // Editar una actividad existente
   update(data: any) {
     return this.httpClient.put(`${this.baseUrl}/update`, data)
       .pipe(tap((result) => {
@@ -59,7 +56,6 @@ export class ActivityService {
       }));
   }
 
-  // Eliminar una actividad
   delete(id: number) {
     return this.httpClient.delete(`${this.baseUrl}/delete/${id}`)
       .pipe(tap(() => {

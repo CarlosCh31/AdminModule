@@ -19,7 +19,7 @@ export class LoginComponent {
     email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   });
-// hay que cambiarlo por seguridad
+
   private pageStrategies: Record<string, () => void> = {
     'admin@example.com': () => this.router.navigate(['admin/users']),
     'info@olimpiadasespeciales.cr': () => this.router.navigate(['admin/users']),
@@ -27,7 +27,7 @@ export class LoginComponent {
   };
 
   private pageAssigner() {
-    const email = this.loginForm.controls['email'].value ?? ''; // Asegura que no sea null
+    const email = this.loginForm.controls['email'].value ?? '';
     const navigateTo = this.pageStrategies[email];
 
     if (navigateTo) {

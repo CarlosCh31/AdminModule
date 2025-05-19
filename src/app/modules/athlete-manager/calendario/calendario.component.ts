@@ -37,7 +37,6 @@ export class CalendarioComponent {
     { name: 'Dic', index: 11 }
   ];
 
-  // Mapa de colores para tipos de actividad
   typeColorMap = new Map<string, string>();
   colorPalette = ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc', '#26a69a', '#ef5350', '#ffca28', '#8d6e63', '#78909c'];
   nextColorIndex = 0;

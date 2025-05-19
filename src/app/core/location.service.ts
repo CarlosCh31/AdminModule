@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class LocationService {
   private baseUrl = 'http://localhost:8080/api';
-  // Ajusta aquí el endpoint base correcto
-
   constructor(private http: HttpClient) {}
 
   getRegions(): Observable<any[]> {

@@ -53,12 +53,12 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: auto; /* Cambiado de 'fixed' a 'auto' para nombres largos */
+  table-layout: auto;
 
   th, td {
     padding: 12px 16px;
     text-align: left;
-    white-space: normal; /* Cambiado de 'nowrap' para permitir múltiples líneas */
+    white-space: normal;
     word-wrap: break-word;
   }
 
@@ -80,7 +80,7 @@ table {
 
   td {
     border-bottom: 1px solid #e0e0e0;
-    vertical-align: top; /* Alinea el contenido en la parte superior */
+    vertical-align: top;
   }
 
   tr:last-child td {
@@ -92,17 +92,16 @@ table {
   }
 }
 
-/* Definición de anchos para cada columna */
 .mat-column-id {
   width: 150px;
   min-width: 150px;
 }
 
 .mat-column-name {
-  width: 300px; /* Aumentado para nombres largos */
+  width: 300px;
   min-width: 250px;
   max-width: 300px;
-  white-space: normal; /* Permite múltiples líneas */
+  white-space: normal;
 }
 
 .mat-column-age {
@@ -123,7 +122,7 @@ table {
 .mat-column-disability {
   width: 180px;
   min-width: 180px;
-  white-space: normal; /* Permite múltiples líneas */
+  white-space: normal;
 }
 
 .mat-column-actions {
@@ -132,7 +131,6 @@ table {
   text-align: center !important;
 }
 
-/* Estilos para celdas con contenido largo */
 .long-text-cell {
   white-space: normal;
   word-break: break-word;

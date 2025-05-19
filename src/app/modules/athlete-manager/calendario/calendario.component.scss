@@ -1,6 +1,5 @@
-/* --------- Encabezado bonito --------- */
 .calendar-top {
-  background: linear-gradient(135deg, rgb(255, 255, 255), #e53935);
+  background: linear-gradient(135deg, rgb(255, 255, 255), #f53f47);
   padding: 0.8rem 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -52,7 +51,7 @@
     transition: all 0.2s ease;
 
     &.active {
-      background-color: #e53935;
+      background-color: #f53f47;
       color: white;
     }
 
@@ -60,7 +59,7 @@
       background-color: #e0e0e0;
 
       &.active {
-        background-color: #c62828;
+        background-color: #f53f47;
       }
     }
   }
@@ -122,7 +121,7 @@
   }
 
   &:hover .dropdown-icon {
-    color: #e53935;
+    color: #f53f47;
   }
 }
 
@@ -181,7 +180,7 @@
       }
 
       &.active {
-        background-color: #e53935;
+        background-color: #f53f47;
         color: white;
       }
     }
@@ -204,7 +203,7 @@
 }
 
 .add-event-button {
-  background-color: #e53935;
+  background-color: #f53f47;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -217,7 +216,7 @@
   gap: 0.5rem;
 
   &:hover {
-    background-color: #c62828;
+    background-color: #f53f47;
   }
 
   .material-icons {
@@ -225,7 +224,6 @@
   }
 }
 
-/* ---------- Body ---------- */
 .calendar-body {
   padding: 0 1.5rem;
   height: calc(100vh - 250px);
@@ -234,7 +232,7 @@
   flex-direction: column;
 }
 
-/* Modal styles */
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -352,7 +350,7 @@
   gap: 0.8rem;
 
   .material-icons {
-    color: #e53935;
+    color: #f53f47;
     font-size: 1.5rem;
     margin-top: 0.2rem;
   }
@@ -423,7 +421,7 @@
   transition: all 0.2s ease;
 
   &:hover {
-    background: #e53935;
+    background: #f53f47;
 
     .material-icons {
       color: white;
@@ -459,7 +457,6 @@
   }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .calendar-header {
     flex-direction: column;

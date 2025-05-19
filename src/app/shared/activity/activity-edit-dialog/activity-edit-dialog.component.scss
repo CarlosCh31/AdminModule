@@ -7,7 +7,7 @@ h2 {
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
-  color: #3f51b5; // Azul de Material Design
+  color: #3f51b5;
 }
 
 form {
@@ -33,7 +33,7 @@ button {
 }
 
 button[color="primary"] {
-  background-color: #3f51b5; // Azul Material
+  background-color: #3f51b5;
   color: white;
   &:hover {
     background-color: #303f9f;
@@ -41,7 +41,7 @@ button[color="primary"] {
 }
 
 button[color="warn"] {
-  background-color: #f44336; // Rojo Material
+  background-color: #f44336;
   color: white;
   &:hover {
     background-color: #d32f2f;

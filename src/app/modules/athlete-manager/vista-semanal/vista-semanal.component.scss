@@ -1,4 +1,3 @@
-/* ---------- Vista Semanal Mejorada ---------- */
 .week-title {
   text-align: center;
   font-size: 1.5rem;
@@ -82,7 +81,6 @@
   }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .kanban-board {
     grid-template-columns: 1fr;

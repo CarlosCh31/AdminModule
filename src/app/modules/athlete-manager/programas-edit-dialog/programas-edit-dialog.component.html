@@ -1,28 +1,24 @@
 <h2 mat-dialog-title>Editar Athleta</h2>
 <div mat-dialog-content>
   <form [formGroup]="editForm">
-    <!-- Campo ID -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>ID</mat-label>
       <input matInput formControlName="id" />
       <mat-error *ngIf="idControl?.invalid">ID inválido</mat-error>
     </mat-form-field>
 
-    <!-- Campo Nombre -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nombre</mat-label>
       <input matInput formControlName="name" />
       <mat-error *ngIf="nameControl?.invalid">Nombre inválido</mat-error>
     </mat-form-field>
 
-    <!-- Campo Teléfono -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Teléfono</mat-label>
       <input matInput formControlName="phone_number" />
       <mat-error *ngIf="phone_numberControl?.invalid">Teléfono inválido</mat-error>
     </mat-form-field>
 
-    <!-- Campo Lateralidad -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Lateralidad</mat-label>
       <mat-select formControlName="laterality">
@@ -32,7 +28,6 @@
       <mat-error *ngIf="lateralityControl?.invalid">Seleccione una opción</mat-error>
     </mat-form-field>
 
-    <!-- Campo Tipo de Discapacidad -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Tipo de Discapacidad</mat-label>
       <mat-select formControlName="disability_type">
@@ -45,7 +40,6 @@
       <mat-error *ngIf="disabilityControl?.invalid">Seleccione un tipo válido</mat-error>
     </mat-form-field>
 
-    <!-- Campo Estado -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Estado</mat-label>
       <mat-select formControlName="state">
@@ -58,7 +52,6 @@
   </form>
 </div>
 
-<!-- Botones -->
 <div mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog()">Cancelar</button>
   <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="editForm.invalid">

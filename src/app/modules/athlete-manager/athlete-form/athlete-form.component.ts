@@ -95,12 +95,12 @@ export class AthleteFormComponent implements OnInit {
 
     if (this.cantonsLoaded) {
       this.cantonsDisponibles = this.cantons.filter(c => c.provinceId == provinceId);
-      this.form.patchValue({ canton_id: '' }); // Limpiamos cantón seleccionado anterior
+      this.form.patchValue({ canton_id: '' });
     }
 
     if (selectedProvince) {
       this.form.patchValue({
-        province_name: selectedProvince.name // 🔥 Guardamos nombre de provincia
+        province_name: selectedProvince.name
       });
     }
   }

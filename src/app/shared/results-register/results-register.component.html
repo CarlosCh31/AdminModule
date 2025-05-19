@@ -6,7 +6,6 @@
 
   <form [formGroup]="form" (ngSubmit)="submit()" class="result-form" novalidate>
 
-    <!-- Actividad -->
     <mat-form-field appearance="outline">
       <mat-label>Actividad</mat-label>
       <mat-select formControlName="activityId">
@@ -20,7 +19,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Atleta -->
     <mat-form-field appearance="outline">
       <mat-label>Atleta</mat-label>
       <mat-select formControlName="athleteId">
@@ -34,7 +32,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Posición -->
     <mat-form-field appearance="outline">
       <mat-label>Posición del Atleta</mat-label>
       <input matInput type="text" formControlName="position" />
@@ -43,7 +40,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Tiempo -->
     <mat-form-field appearance="outline">
       <mat-label>Tiempo del Atleta</mat-label>
       <input matInput type="text" formControlName="time" />

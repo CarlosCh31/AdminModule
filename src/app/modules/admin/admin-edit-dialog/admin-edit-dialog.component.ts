@@ -56,7 +56,7 @@ export class AdminEditDialogComponent {
       this.authService.edit(adminData).subscribe(
         (response) => {
           console.log('Admin actualizado:', response);
-          this.dialogRef.close(true); // Cierra el modal y actualiza la vista
+          this.dialogRef.close(true);
         },
         (error) => {
           window.location.reload();

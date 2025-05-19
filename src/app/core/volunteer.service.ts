@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class VolunteerService {
   httpClient = inject(HttpClient);
-  baseUrl = 'http://localhost:8080/api/volunteers'; // Ajusta la URL según tu backend
+  baseUrl = 'http://localhost:8080/api/volunteers';
 
   constructor() { }
 

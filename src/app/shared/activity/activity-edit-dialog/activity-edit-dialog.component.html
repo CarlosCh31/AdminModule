@@ -1,7 +1,6 @@
 <h2 mat-dialog-title>Editar Actividad</h2>
 <div mat-dialog-content>
   <form [formGroup]="editForm">
-    <!-- Nombre -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nombre</mat-label>
       <input matInput formControlName="name" />
@@ -10,7 +9,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Tipo -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Tipo</mat-label>
       <input matInput formControlName="type" />
@@ -19,7 +17,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Descripción -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Descripción</mat-label>
       <input matInput formControlName="description" />
@@ -28,7 +25,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Fecha -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha</mat-label>
       <input matInput type="date" formControlName="date" />
@@ -37,7 +33,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Hora -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Hora</mat-label>
       <input matInput type="time" formControlName="time" />
@@ -46,7 +41,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Duración -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Duración</mat-label>
       <input matInput formControlName="duration"/>
@@ -55,7 +49,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Ubicación -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Ubicación</mat-label>
       <input matInput formControlName="location" />
@@ -64,7 +57,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Modalidad -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Modalidad</mat-label>
       <input matInput formControlName="modality" />
@@ -73,7 +65,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Máx. Participantes -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Máx. Participantes</mat-label>
       <input matInput type="number" formControlName="maxParticipants" />
@@ -82,7 +73,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Min. Edad -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Edad minimma</mat-label>
       <input matInput type="number" formControlName="minimumAge" />
@@ -91,7 +81,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Max. Edad -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Edad maxima</mat-label>
       <input matInput type="number" formControlName="maximumAge" />
@@ -100,14 +89,12 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Campo Email -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput formControlName="administratorEmail" />
       <mat-error *ngIf="administratorEmailControl?.invalid">Email inválido</mat-error>
     </mat-form-field>
 
-    <!-- Estado -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Estado</mat-label>
       <mat-select formControlName="state">
@@ -121,7 +108,6 @@
   </form>
 </div>
 
-<!-- Botones -->
 <div mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog()">Cancelar</button>
   <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="editForm.invalid">

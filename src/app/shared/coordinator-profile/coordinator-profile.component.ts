@@ -35,19 +35,16 @@ export class CoordinatorProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // SIEMPRE creamos el form
     this.profileForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
-    // Luego traemos usuario
     this.userData = this.authService.getCurrentUser();
 
     if (!this.userData) {
       console.warn('No se encontró usuario autenticado');
-      // puedes mostrar un mensaje o redirigir
       setTimeout(() => {
-        this.userService.setUser("Iniciacion");  // o donde prefieras
+        this.userService.setUser("Iniciacion");
       }, 2000);
     }
 

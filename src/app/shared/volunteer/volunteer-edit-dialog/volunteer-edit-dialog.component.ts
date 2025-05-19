@@ -46,7 +46,7 @@ export class VolunteerEditDialogComponent {
         },
         error: (err: any) => {
           console.error('Error actualizando voluntario:', err);
-          this.dialogRef.close(true); // opcional: cerrar siempre
+          this.dialogRef.close(true);
         }
       });
     }

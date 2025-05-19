@@ -1,15 +1,12 @@
 <h1 class="month-title">{{ monthName }}</h1>
 
 <div class="month-board">
-  <!-- Fila de nombres de días -->
   <div class="day-name" *ngFor="let day of weekDays">
     {{ day }}
   </div>
 
-  <!-- Espacios vacíos al inicio según el primer día del mes -->
   <div class="empty-day" *ngFor="let i of [].constructor(getDayOffset())"></div>
 
-  <!-- Días del mes -->
   <div class="day-column"
        *ngFor="let day of daysOfMonth"
        [ngClass]="{'today-column': isToday(day.dayNumber)}">

@@ -50,7 +50,6 @@ export class AdminListComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
-  // Configuración de paginación
   readonly itemsPerPage = 6;
   currentPage = 1;
   totalPages = 1;
@@ -117,7 +116,6 @@ export class AdminListComponent implements OnInit {
     });
   }
 
-  // Métodos de paginación
   updatePagination() {
     this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

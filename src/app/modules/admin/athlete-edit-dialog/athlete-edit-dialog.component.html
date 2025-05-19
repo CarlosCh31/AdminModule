@@ -8,7 +8,6 @@
       <mat-error *ngIf="idControl?.invalid">ID inválido</mat-error>
     </mat-form-field>
 
-    <!-- Campo Lateralidad -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Lateralidad</mat-label>
       <mat-select formControlName="laterality">
@@ -18,7 +17,6 @@
       <mat-error *ngIf="lateralityControl?.invalid">Seleccione una opción</mat-error>
     </mat-form-field>
 
-    <!-- Campo Tipo de Discapacidad -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Tipo de Discapacidad</mat-label>
       <mat-select formControlName="disability_type">
@@ -47,7 +45,6 @@
   </form>
 </div>
 
-<!-- Botones -->
 <div mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog()">Cancelar</button>
   <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="editForm.invalid">

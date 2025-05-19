@@ -37,18 +37,13 @@ export class RegisterComponent {
   showDomainWarning = false;
   submitted = false;
 
-  /**
-   * Navega a la página de login
-   */
   goToLogin() {
     this.router.navigate(['/auth/login']);
   }
 
-  /**
-   * Valida si el correo pertenece al dominio `@olimpiadasespeciales.cr`
-   */
+
   private emailDomainValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    if (!this.submitted) return null; // Solo validar dominio después de enviar
+    if (!this.submitted) return null;
 
     const email: string = control.value;
     if (!email) return null;
@@ -60,39 +55,24 @@ export class RegisterComponent {
     return null;
   };
 
-  /**
-   * Formulario (solo el correo, la contraseña se genera automáticamente)
-   */
   registerForm: FormGroup = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email, this.emailDomainValidator]]
   });
 
-  /**
-   * Verifica si un campo es inválido y ha sido tocado
-   */
   isInvalid(field: string): boolean {
     const control = this.registerForm.get(field);
     return control ? control.invalid && control.touched : false;
   }
 
-  /**
-   * Marca un campo como tocado manualmente
-   */
   markTouched(field: string) {
     this.registerForm.get(field)?.markAsTouched();
   }
 
-  /**
-   * Genera una contraseña aleatoria
-   */
   private generatePassword(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&';
     return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
   }
 
-  /**
-   * Envía el formulario
-   */
   onSubmit() {
     this.submitted = true;
     this.showDomainWarning = false;
@@ -108,7 +88,7 @@ export class RegisterComponent {
     if (!isInternalDomain && !this.allowExternalDomain) {
       this.showDomainWarning = true;
       this.formStatus = 'Verifica el dominio del correo electrónico';
-      return; // Detiene el proceso hasta que el usuario decida continuar
+      return;
     }
 
     this.isLoading = true;
@@ -141,9 +121,6 @@ export class RegisterComponent {
       });
   }
 
-  /**
-   * Simula el envío de correo con la contraseña
-   */
   private sendEmailNotification(email: string, password: string) {
     this.emailService.sendWelcomeEmail(email, password).subscribe({
       next: () => console.log(`📧 Correo enviado a: ${email}`),

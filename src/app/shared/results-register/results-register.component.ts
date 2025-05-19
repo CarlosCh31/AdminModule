@@ -67,13 +67,13 @@ export class ResultsRegisterComponent implements OnInit {
     };
     this.http.post('http://localhost:8080/api/results/register', payload, { responseType: 'text' }).subscribe({
       next: (response) => {
-        alert(response); // Mostrar mensaje de éxito enviado por el backend
+        alert(response);
       },
       error: (error) => {
         if (error.status === 400) {
-          alert('Error de integridad: ' + error.error); // Muestra el error de datos FK/PK
+          alert('Error de integridad: ' + error.error);
         } else if (error.status === 500) {
-          alert('Error del servidor: ' + error.error); // Muestra error interno
+          alert('Error del servidor: ' + error.error);
         } else {
           alert('Error desconocido: ' + error.error);
         }

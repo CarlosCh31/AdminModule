@@ -1,34 +1,139 @@
 .admin-navbar {
   display: flex;
   align-items: center;
-  padding: 0 16px;
-}
+  padding: 0 24px;
+  height: 80px;
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 100;
+  color: #f53f47;
 
-.search-field {
-  flex: 1;
-  max-width: 200px;
+  .logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 24px;
 
-}
+    .logo {
+      height: 80px;
+      width: auto;
+      transition: transform 0.3s ease;
 
-.spacer {
-  flex: 1;
-}
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
 
-.profile-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+  .title {
+    color: #616156;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin: 0;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 
-.profile-pic {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
+    &:hover {
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
 
-.tittle{
-  color: #44474e;
-  font-family: 'Ubuntu', sans-serif;
-  display: inline-block;
-  margin: 0 500px;
+  .spacer {
+    flex: 1;
+  }
+
+  .actions-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .notification-button {
+    color: #f53f47;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: rgb(255, 255, 255);
+      transform: translateY(-2px);
+    }
+
+    .mat-icon {
+      font-size: 24px;
+    }
+  }
+
+  .profile-button {
+    color: #f53f47;
+    padding: 8px 16px;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+    background-color: rgb(255, 255, 255);
+
+    &:hover {
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .username {
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .mat-icon {
+        transition: transform 0.3s ease;
+        font-size: 24px;
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  .user-menu {
+    margin-top: 8px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    padding: 8px 0;
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px;
+      transition: all 0.2s ease;
+
+      .mat-icon {
+        color: #f53f47;
+      }
+
+      &:hover {
+        background-color: #f5f5f5;
+        color: #f53f47;
+      }
+
+      &.logout {
+        color: #f53f47;
+
+        .mat-icon {
+          color: #d32f2f;
+        }
+      }
+    }
+  }
 }

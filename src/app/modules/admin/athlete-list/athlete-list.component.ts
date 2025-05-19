@@ -49,7 +49,6 @@ export class AthleteListComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
-  // Configuración de paginación
   readonly itemsPerPage = 6;
   currentPage = 1;
   totalPages = 1;

@@ -1,4 +1,3 @@
-/* === Variables de colores y estilos globales === */
 $primary-color: #333;
 $secondary-color: #555;
 $background-color: #ffffff;
@@ -16,7 +15,6 @@ $font-family: 'Ubuntu', sans-serif;
   align-items: center;
 }
 
-/* === Contenedor Principal === */
 .result-form {
   width: 90%;
   max-width: 800px;
@@ -51,7 +49,6 @@ $font-family: 'Ubuntu', sans-serif;
   }
 }
 
-/* === Encabezado === */
 h2 {
   text-align: center;
   font-size: 24px;
@@ -61,7 +58,6 @@ h2 {
   font-family: $font-family;
 }
 
-/* === Responsive === */
 @media (max-width: 768px) {
   .result-form {
     grid-template-columns: 1fr;

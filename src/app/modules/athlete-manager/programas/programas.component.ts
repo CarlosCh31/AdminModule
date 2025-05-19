@@ -23,7 +23,7 @@ import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatMenuModule} from '@angular/material/menu';
-import {ModalAddAthleteComponent} from '../modal-add-athlete/modal-add-athlete.component'; // Ajusta tu path real
+import {ModalAddAthleteComponent} from '../modal-add-athlete/modal-add-athlete.component';
 
 @Component({
   selector: 'app-admin-program',
@@ -55,7 +55,6 @@ export class ProgramasComponent implements OnInit {
   private athleteService = inject(AthleteService);
   private dialog = inject(MatDialog);
 
-  // Configuración de paginación
   readonly itemsPerPage = 6;
   currentPage = 1;
   totalPages = 1;
@@ -196,7 +195,6 @@ export class ProgramasComponent implements OnInit {
     });
   }
 
-  // Métodos de paginación
   updatePagination() {
     this.totalPages = Math.ceil(this.sortedData.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

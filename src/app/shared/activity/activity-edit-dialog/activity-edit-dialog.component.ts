@@ -29,7 +29,7 @@ import {MatOption, MatSelect} from '@angular/material/select';
   styleUrls: ['./activity-edit-dialog.component.scss'],
 })
 export class ActivityEditDialogComponent {
-  public editForm: FormGroup;  // Cambiado a público para acceder desde el HTML
+  public editForm: FormGroup;
   private activityService = inject(ActivityService);
 
   constructor(
@@ -59,7 +59,6 @@ export class ActivityEditDialogComponent {
   get idControl() {
     return this.editForm.get('id');
   }
-  // Hacer los getters públicos para que sean accesibles en la plantilla
   get nameControl() {
     return this.editForm.get('name');
   }
