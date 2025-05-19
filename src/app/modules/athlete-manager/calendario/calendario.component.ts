@@ -37,7 +37,13 @@ export class CalendarioComponent {
     { name: 'Dic', index: 11 }
   ];
 
-  typeColorMap = new Map<string, string>();
+  typeColorMap = new Map<string, string>([
+    ['deporte', '#66bb6a'],
+    ['taller', '#ffa726'],
+    ['charla', '#ab47bc'],
+    ['foro', '#42a5f5']
+  ]);
+
   colorPalette = ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc', '#26a69a', '#ef5350', '#ffca28', '#8d6e63', '#78909c'];
   nextColorIndex = 0;
 
@@ -127,11 +133,6 @@ export class CalendarioComponent {
 
   getTypeColor(type: string): string {
     const lowerType = type.toLowerCase();
-    if (!this.typeColorMap.has(lowerType)) {
-      const color = this.colorPalette[this.nextColorIndex % this.colorPalette.length];
-      this.typeColorMap.set(lowerType, color);
-      this.nextColorIndex++;
-    }
     return this.typeColorMap.get(lowerType) || '#bdbdbd';
   }
 }
