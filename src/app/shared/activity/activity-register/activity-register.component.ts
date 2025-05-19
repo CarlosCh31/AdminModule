@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -67,6 +67,7 @@ export interface TalkForum {
   styleUrls: ['./activity-register.component.scss'],
 })
 export class ActivityRegisterComponent implements OnInit {
+  @Output() activityAdded = new EventEmitter<void>();
   activityForm!: FormGroup;
   showMainForm = true;
   showAdditionalForm = false;
@@ -101,7 +102,6 @@ export class ActivityRegisterComponent implements OnInit {
       sport: [''],
       difficulty: [''],
       needs_special_equipment: [false],
-      //specification: [''],
       level: [''],
       objective: [''],
       target_audience: [''],
@@ -110,10 +110,10 @@ export class ActivityRegisterComponent implements OnInit {
       theme: ['']
     });
 
-  this.activityForm.get('type')?.valueChanges.subscribe(value => {
-  this.updateValidators(value);
-});
-}
+    this.activityForm.get('type')?.valueChanges.subscribe(value => {
+      this.updateValidators(value);
+    });
+  }
 
   private updateValidators(activityType: string) {
     const fieldGroups: Record<string, string[]> = {
@@ -135,7 +135,6 @@ export class ActivityRegisterComponent implements OnInit {
     this.activityForm.updateValueAndValidity();
   }
 
-
   goToNextStep() {
     this.submittedMain = true;
     const firstPartFields = ['type', 'name', 'description', 'date', 'time', 'duration', 'modality', 'location', 'maxParticipants', 'minimumAge', 'maximumAge'];
@@ -147,7 +146,7 @@ export class ActivityRegisterComponent implements OnInit {
     if (firstPartFields.every(field => this.activityForm.get(field)?.valid)) {
       this.showMainForm = false;
       this.showAdditionalForm = true;
-      this.submittedMain = false; // Resetear para evitar errores persistentes
+      this.submittedMain = false;
     }
   }
 
@@ -166,8 +165,6 @@ export class ActivityRegisterComponent implements OnInit {
 
   submitActivity(): void {
     this.submittedAdditional = true;
-
-    // Activar validaciones de la segunda parte
     this.updateValidators(this.activityForm.get('type')?.value);
 
     if (this.activityForm.invalid) {
@@ -189,102 +186,60 @@ export class ActivityRegisterComponent implements OnInit {
       minimumAge: this.activityForm.value.minimumAge,
       maximumAge: this.activityForm.value.maximumAge,
       administrator: { id: 0, email: this.activityForm.value.email, password: '' },
-      state:'activo'
+      state: 'activo'
     };
 
-    if (this.activityForm.value.type === 'Deporte') {
-      Object.assign(activityData, {
-        sport: this.activityForm.value.sport,
-        difficulty: this.activityForm.value.difficulty,
-        needs_special_equipment: this.activityForm.value.needs_special_equipment,
-        specifications: this.activityForm.value.specifications,
-        level: this.activityForm.value.level
-      });
-      this.activityService.registerSport(activityData).subscribe(
-        response => {
-          console.log('Deporte creado:', response.message);
-          this.successMessage = response.message || '¡Deporte guardado correctamente!';
-          this.errorMessage = null;
-          this.activityForm.reset(); // limpiar formulario
-          this.goBack();
-          setTimeout(() => {
-            this.successMessage = null;
-          }, 3000);
-        },
-        error => {
-          console.error('Error al registrar el deporte:', error);
-          this.errorMessage = error?.error?.message || 'Ocurrió un error al registrar el deporte.';
-          this.successMessage = null;
+    const handleSuccess = (response: any) => {
+      console.log('Actividad creada:', response.message);
+      this.successMessage = response.message || '¡Actividad guardada correctamente!';
+      this.errorMessage = null;
+      this.activityForm.reset();
+      this.goBack();
+      this.activityAdded.emit();
+      setTimeout(() => {
+        this.successMessage = null;
+      }, 3000);
+    };
 
-          setTimeout(() => {
-            this.errorMessage = null;
-          }, 5000);
-        }
-      );
+    const handleError = (error: any) => {
+      console.error('Error al registrar la actividad:', error);
+      this.errorMessage = error?.error?.message || 'Ocurrió un error al registrar la actividad.';
+      this.successMessage = null;
+      setTimeout(() => {
+        this.errorMessage = null;
+      }, 5000);
+    };
 
+    switch (this.activityForm.value.type) {
+      case 'Deporte':
+        Object.assign(activityData, {
+          sport: this.activityForm.value.sport,
+          difficulty: this.activityForm.value.difficulty,
+          needs_special_equipment: this.activityForm.value.needs_special_equipment,
+          specifications: this.activityForm.value.specifications,
+          level: this.activityForm.value.level
+        });
+        this.activityService.registerSport(activityData).subscribe(handleSuccess, handleError);
+        break;
+
+      case 'Taller':
+        Object.assign(activityData, {
+          objectives: this.activityForm.value.objective,
+          target_audience: this.activityForm.value.target_audience,
+          needs_material: this.activityForm.value.needs_material,
+          specifications: this.activityForm.value.specifications,
+        });
+        this.activityService.registerWorkshop(activityData).subscribe(handleSuccess, handleError);
+        break;
+
+      case 'Charla':
+      case 'Foro':
+        Object.assign(activityData, {
+          theme: this.activityForm.value.theme,
+          target_audience: this.activityForm.value.target_audience
+        });
+        this.activityService.registerTalkForum(activityData).subscribe(handleSuccess, handleError);
+        break;
     }
-
-    if (this.activityForm.value.type === 'Taller') {
-      Object.assign(activityData, {
-        objectives: this.activityForm.value.objective,
-        target_audience: this.activityForm.value.target_audience,
-        needs_material: this.activityForm.value.needs_material,
-        specifications: this.activityForm.value.specifications,
-      });
-      this.activityService.registerWorkshop(activityData).subscribe( response => {
-          console.log('Taller creado:', response.message);
-          this.successMessage = response.message || '¡Taller guardado correctamente!';
-          this.errorMessage = null;
-          this.activityForm.reset(); // limpiar formulario
-          this.goBack();
-          setTimeout(() => {
-            this.successMessage = null;
-          }, 3000);
-        },
-        error => {
-          console.error('Error al registrar el taller:', error);
-          this.errorMessage = error?.error?.message || 'Ocurrió un error al registrar el taller.';
-          this.successMessage = null;
-
-          setTimeout(() => {
-            this.errorMessage = null;
-          }, 5000);
-        }
-      );
-    }
-
-    if (['Charla', 'Foro'].includes(this.activityForm.value.type)) {
-      Object.assign(activityData, {
-        theme: this.activityForm.value.theme,
-        target_audience: this.activityForm.value.target_audience
-      });
-      this.activityService.registerTalkForum(activityData).subscribe(
-        response => {
-          console.log('Charla/Foro creado:', response.message);
-          this.successMessage = response.message || '¡Charla/Foro guardado correctamente!';
-          this.errorMessage = null;
-          this.activityForm.reset(); // limpiar formulario
-          this.goBack();
-          setTimeout(() => {
-            this.successMessage = null;
-          }, 3000);
-        },
-        error => {
-          console.error('Error al registrar la charla/foro:', error);
-          this.errorMessage = error?.error?.message || 'Ocurrió un error al registrar la charla/foro.';
-          this.successMessage = null;
-
-          setTimeout(() => {
-            this.errorMessage = null;
-          }, 5000);
-        }
-      );
-    }
-
-    console.log('aaaaaaaaaaaaaaaaa' + JSON.stringify(activityData));
-   /* this.activityService.register(activityData).subscribe(
-      response => console.log('Actividad creada:', response),
-      error => console.error('Error al registrar la actividad:', error)
-    );*/
   }
 }

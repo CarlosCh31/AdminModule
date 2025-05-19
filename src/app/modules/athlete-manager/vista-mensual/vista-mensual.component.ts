@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityDTO, ActivityService } from '../../../core/activity.service';
 
@@ -18,6 +18,7 @@ interface DayInfo {
 export class VistaMensualComponent implements OnChanges {
   @Input() currentDate!: Date;
   @Input() searchQuery = '';
+  @Output() activitySelected = new EventEmitter<ActivityDTO>();
 
   allActivities: ActivityDTO[] = [];
   daysOfMonth: DayInfo[] = [];
@@ -101,5 +102,10 @@ export class VistaMensualComponent implements OnChanges {
     const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1).getDay();
     // Ajuste para que Lunes sea 0
     return firstDay === 0 ? 6 : firstDay - 1;
+  }
+
+  onActivityClick(activity: ActivityDTO, event: MouseEvent) {
+    event.stopPropagation();
+    this.activitySelected.emit(activity);
   }
 }

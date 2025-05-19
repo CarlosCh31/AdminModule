@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityDTO, ActivityService } from '../../../core/activity.service';
 
@@ -13,6 +13,7 @@ export class VistaSemanalComponent implements OnChanges {
 
   @Input() currentDate!: Date;
   @Input() searchQuery = '';
+  @Output() activitySelected = new EventEmitter<ActivityDTO>();
 
   weekDays = [
     { name: 'Lunes', activities: [] as ActivityDTO[], date: new Date() },
@@ -103,5 +104,10 @@ export class VistaSemanalComponent implements OnChanges {
     return today.getDate() === date.getDate() &&
       today.getMonth() === date.getMonth() &&
       today.getFullYear() === date.getFullYear();
+  }
+
+  onActivityClick(activity: ActivityDTO, event: MouseEvent) {
+    event.stopPropagation();
+    this.activitySelected.emit(activity);
   }
 }

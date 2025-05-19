@@ -5,23 +5,28 @@
        *ngFor="let day of weekDays"
        [ngClass]="{ 'today-column': isToday(day.date) }">
 
-    <h2>{{ day.name }} ({{ day.date.getDate() }})</h2>
-
-    <div *ngFor="let activity of day.activities"
-         class="activity-card"
-         [style.borderLeft]=" '5px solid ' + getTypeColor(activity.type) ">
-
-      <div class="tag" [style.backgroundColor]="getTypeColor(activity.type)">
-        {{ activity.type }}
-      </div>
-
-      <h4>{{ activity.name }}</h4>
-      <p>{{ activity.description }}</p>
-      <small>{{ activity.time }} | {{ activity.modality }} | {{ activity.location }}</small>
+    <div class="day-header">
+      <h2>{{ day.name }} ({{ day.date.getDate() }})</h2>
     </div>
 
-    <div *ngIf="day.activities.length === 0" class="empty-message">
-      Sin actividades
+    <div class="activities-container">
+      <div *ngFor="let activity of day.activities"
+           class="activity-card"
+           [style.borderLeft]=" '5px solid ' + getTypeColor(activity.type) "
+           (click)="onActivityClick(activity, $event)">
+
+        <div class="tag" [style.backgroundColor]="getTypeColor(activity.type)">
+          {{ activity.type }}
+        </div>
+
+        <h4>{{ activity.name }}</h4>
+        <p>{{ activity.description }}</p>
+        <small>{{ activity.time | slice:0:5 }} | {{ activity.modality }}</small>
+      </div>
+
+      <div *ngIf="day.activities.length === 0" class="empty-message">
+        Sin actividades
+      </div>
     </div>
   </div>
 </div>

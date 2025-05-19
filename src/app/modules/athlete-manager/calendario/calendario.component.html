@@ -67,7 +67,7 @@
       <button class="close-button" (click)="closeAddEventModal()">
         <span class="material-icons">close</span>
       </button>
-      <app-activity-register></app-activity-register>
+      <app-activity-register (activityAdded)="onActivityAdded()"></app-activity-register>
     </div>
   </div>
 </div>
@@ -76,13 +76,94 @@
   <app-vista-mensual
     *ngIf="currentView === 'month'"
     [currentDate]="currentDate"
-    [searchQuery]="searchQuery">
+    [searchQuery]="searchQuery"
+    (activitySelected)="onActivitySelected($event)">
   </app-vista-mensual>
 
   <app-vista-semanal
     *ngIf="currentView === 'week'"
     [currentDate]="currentDate"
-    [searchQuery]="searchQuery">
+    [searchQuery]="searchQuery"
+    (activitySelected)="onActivitySelected($event)">
   </app-vista-semanal>
 </div>
 
+<!-- Modal de detalles de actividad -->
+<div class="modal-backdrop" *ngIf="showActivityModal" (click)="closeActivityModal()">
+  <div class="activity-modal" (click)="$event.stopPropagation()">
+    <button class="activity-close-button" (click)="closeActivityModal()">
+      <span class="material-icons">close</span>
+    </button>
+
+    <div class="activity-header" *ngIf="selectedActivity">
+      <div class="activity-type-tag" [style.background]="getTypeColor(selectedActivity.type)">
+        {{ selectedActivity.type }}
+      </div>
+      <h2>{{ selectedActivity.name }}</h2>
+      <div class="activity-meta">
+        <span class="material-icons">event</span>
+        <span>{{ formatDate(selectedActivity.date) }}</span>
+        <span class="material-icons">schedule</span>
+        <span>{{ formatTime(selectedActivity.time) }}</span>
+      </div>
+    </div>
+
+    <div class="activity-content" *ngIf="selectedActivity">
+      <div class="activity-section">
+        <h3>Descripción</h3>
+        <p>{{ selectedActivity.description || 'No hay descripción disponible' }}</p>
+      </div>
+
+      <div class="activity-details-grid">
+        <div class="detail-item">
+          <span class="material-icons">place</span>
+          <div>
+            <h4>Ubicación</h4>
+            <p>{{ selectedActivity.location || 'No especificada' }}</p>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <span class="material-icons">computer</span>
+          <div>
+            <h4>Modalidad</h4>
+            <p>{{ selectedActivity.modality || 'No especificada' }}</p>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <span class="material-icons">people</span>
+          <div>
+            <h4>Participantes</h4>
+            <p>Máximo: {{ selectedActivity.maxParticipants || 'No especificado' }}</p>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <span class="material-icons">accessibility</span>
+          <div>
+            <h4>Rango de edad</h4>
+            <p *ngIf="selectedActivity.minimumAge && selectedActivity.maximumAge">
+              {{ selectedActivity.minimumAge }} - {{ selectedActivity.maximumAge }} años
+            </p>
+            <p *ngIf="!selectedActivity.minimumAge || !selectedActivity.maximumAge">
+              No especificado
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-footer" *ngIf="selectedActivity">
+      <div class="activity-state">
+        <span class="state-badge" [class.active]="selectedActivity.state === 'ACTIVE'">
+          {{ selectedActivity.state === 'ACTIVE' ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+      <div class="activity-admin">
+        <span class="material-icons">person</span>
+        <span>Organizador: {{ selectedActivity.administratorEmail }}</span>
+      </div>
+    </div>
+  </div>
+</div>

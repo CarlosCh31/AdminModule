@@ -22,7 +22,8 @@
     <div class="activities-container">
       <div *ngFor="let activity of day.activities"
            class="activity-card"
-           [style.borderLeftColor]="getTypeColor(activity.type)">
+           [style.borderLeftColor]="getTypeColor(activity.type)"
+           (click)="onActivityClick(activity, $event)">
 
         <div class="tag" [style.backgroundColor]="getTypeColor(activity.type)">
           {{ activity.type | slice:0:3 }}
@@ -38,5 +39,4 @@
       </div>
     </div>
   </div>
-
 </div>
